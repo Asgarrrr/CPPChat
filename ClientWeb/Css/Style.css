@@ -1,0 +1,51 @@
+*{
+    font-family:Lucida, sans-serif;
+}
+body{
+    background-color: whitesmoke;
+    margin: 0;
+}
+.formulaire{
+    text-align: center;
+    margin: 100px auto 0 auto;
+    width: 25%;
+    height: 400px;
+    background-color:white;
+    border-radius: 5px;
+    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+
+}
+form{
+    margin:0;
+    padding-top:20%;
+}
+
+.form-nom{
+    padding-bottom: 25px;
+}
+.form-mdp{
+    margin:auto;
+}
+input.champ{
+    border-radius: 5px;
+    height: 25px;
+    width: 60%;
+}
+input.boutton{
+    margin-top:15%;
+    width: 30%;
+    border-radius: 5px;
+    background-color:whitesmoke;
+    height: 40px;
+}
+label{
+    /*border-bottom: 10px;*/
+    padding: 0px;
+    display: block;
+    margin:0 0 15px 20%;
+    text-align: left;
+    font-size: 15px;
+}
+p{
+    text-align: center;
+}
