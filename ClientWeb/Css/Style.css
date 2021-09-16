@@ -67,14 +67,13 @@ p {
     color: black;
 }
 
-/*.form-mdpv{
-    padding-bottom: 25px;
-}*/
 
+
+/*--Chat--*/
 .Block{
     background-color: rgb(255, 255, 255);
     width: 50%;
-    height: 700px;
+    height: 800px;
     border-radius: 6px;
     margin: 100px auto 0 auto;
     box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
@@ -88,7 +87,6 @@ p {
     margin-right: 3%;
     border-radius: 3px;
     overflow-y: scroll;
-    scrollbar-width: thin;
 }
 
 .msg{
@@ -108,7 +106,7 @@ textarea{
     box-shadow: 1px 1px 1px #999;
     background-color: #161b22;
     color: white;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 button.message{
