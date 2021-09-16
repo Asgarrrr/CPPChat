@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BD721E6E-06B7-4B3C-865B-753503343FCE}</ProjectGuid>
+    <ProjectGuid>{DFA00537-6088-4858-AEB5-5E911D3661E2}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.17763.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.17763.0</WindowsTargetPlatformVersion>
