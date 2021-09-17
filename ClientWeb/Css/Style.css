@@ -14,7 +14,7 @@ body {
     height: 450px;
     background-color: white;
     border-radius: 5px;
-    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+    box-shadow: rgb(60 66 87 / 50%) 0px 7px 14px 0px, rgb(0 0 0 / 37%) 0px 3px 6px 0px;
 
 }
 
@@ -36,7 +36,8 @@ input.champ {
     border-radius: 5px;
     height: 25px;
     width: 60%;
-    border-color: rgb(235, 235, 235);
+    border-color:whitesmoke;
+    background-color: rgb(223, 223, 223);
 }
 
 button.Connexion {
@@ -64,7 +65,10 @@ p {
 
 .lien {
     margin: 2% 0% 0% 0%;
-    color: black;
+}
+.link{
+    color:black;
+    text-decoration:none;
 }
 
 
@@ -73,7 +77,7 @@ p {
 .Block{
     background-color: rgb(255, 255, 255);
     width: 50%;
-    height: 800px;
+    height: 700px;
     border-radius: 6px;
     margin: 100px auto 0 auto;
     box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
@@ -82,7 +86,7 @@ p {
 .chat{
     background-color: #0d1117;
     width: 94%;
-    height: 75%;
+    height: 90%;
     margin-left: 3%;
     margin-right: 3%;
     border-radius: 3px;
@@ -91,16 +95,16 @@ p {
 
 .msg{
     text-align: center;
-    width:100%;
+    width:80%;
     margin-top: 2px;
-    height:15% ;
+    margin-left: 4%;
+    height: 10%;
+    display: inline-block;
     
 }
-textarea{
-    max-width: 90%;
-    min-width:90%;
-    max-height: 90%;
-    min-height: 90%;
+input.zonetext{
+    width: 100%;
+    height: 90%;
     border-radius: 5px;
     border: 1px solid #ccc;
     box-shadow: 1px 1px 1px #999;
@@ -110,15 +114,22 @@ textarea{
 }
 
 button.message{
-    margin-top: 2%;
-    text-align: center;
-    background-color:#0d1117;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+    background-color: #161b22;
     color: white;
     border-radius: 4px;
-    width: 20%;
-    height: 60%;
+    width: 150%;
+    height: 50%;
+    
+    
 }
 .bouttonmsg{
     text-align: center;
-    height: 10%;
+    display: inline-block;
+    height: 20%;
 }
+
+/*input::placeholder {
+    color:white;
+  }*/
