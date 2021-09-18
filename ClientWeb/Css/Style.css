@@ -9,7 +9,7 @@ body {
 
 .formulaire {
     text-align: center;
-    margin: 100px auto 0 auto;
+    margin: 150px auto 0 auto;
     width: 25%;
     height: 450px;
     background-color: rgba(0,0,0,.5);
@@ -17,6 +17,12 @@ body {
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
     border: transparent;
 
+}
+
+h2{
+    margin:0px 0px 0px 0px;
+    padding-top: 10%;
+    color: white;
 }
 
 form {
@@ -32,7 +38,9 @@ form {
     margin: auto;
     padding-bottom: 25px;
 }
-
+.form-mdpv{
+    margin: 0% 0% 10% 0%;
+}
 input.champ {
     border-radius: 4px;
     height: 25px;
@@ -43,15 +51,21 @@ input.champ {
 }
 
 button.Connexion {
-    margin-top: 12%;
-    width: 30%;
-    border-radius: 5px;
-    background-color: rgb(0, 0, 0);
-    height: 40px;
-    color: rgb(255, 255, 255);
-    font-size: 15px;
+	color: #fff !important;
+	text-transform: uppercase;
+	background: #60a3bc;
+	padding: 20px;
+	border-radius: 50px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
 }
-
+button.Connexion:hover{
+    text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+	box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.4s ease 0s;
+}
 label {
     /*border-bottom: 10px;*/
     padding: 0px;
@@ -66,10 +80,10 @@ p {
 }
 
 .lien {
-    margin: 2% 0% 0% 0%;
+    margin: 3% 0% 0% 0%;
 }
 .link{
-    color:black;
+    color:white;
     text-decoration:none;
 }
 
@@ -82,23 +96,24 @@ p {
     height: 700px;
     border-radius: 6px;
     margin: 100px auto 0 auto;
-    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+    box-shadow:0 15px 25px rgba(0,0,0,.6);
 }
 
 .chat{
-    background-color: #0d1117;
+    background-color: rgb(185, 185, 185);
     width: 94%;
     height: 90%;
     margin-left: 3%;
     margin-right: 3%;
     border-radius: 3px;
     overflow-y: scroll;
+    margin-top: 3%;
 }
 
 .msg{
     text-align: center;
     width:80%;
-    margin-top: 2px;
+    /*margin-top: 2px;*/
     margin-left: 4%;
     height: 10%;
     display: inline-block;
@@ -108,21 +123,21 @@ input.zonetext{
     width: 100%;
     height: 90%;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    box-shadow: 1px 1px 1px #999;
-    background-color: #161b22;
+    border: 1px solid rgb(0, 0, 0);
+    /*box-shadow: 1px 1px 1px #999;*/
+    background-color: #2d2d2d;
     color: white;
     font-size: 18px;
 }
 
 button.message{
-    border: 1px solid #ccc;
-    box-shadow: 1px 1px 1px #999;
-    background-color: #161b22;
+    border: 1px solid rgb(0, 0, 0);
+    /*box-shadow: 1px 1px 1px #999;*/
+    background-color: #2d2d2d;
     color: white;
     border-radius: 4px;
     width: 150%;
-    height: 50%;
+    height: 48%;
     
     
 }
@@ -191,22 +206,22 @@ button.message{
   
   nav a:nth-child(1):before
   {
-      background-color: yellow;
+      background-color: white;
   }
   
   nav a:nth-child(1):after
   {
-      background-color: red;
+      background-color: #60a3bc;
   }
   
   nav a:nth-child(2):before
   {
-      background-color: #00e2ff;
+      background-color: #7289d9;
   }
   
   nav a:nth-child(2):after
   {
-      background-color: #89ff00;
+      background-color: rgb(83 95 238);
   }
   
   nav a:nth-child(3):before
@@ -243,13 +258,13 @@ button.message{
   
   nav a:nth-child(1):hover ~ #indicator
   {
-      background: linear-gradient(130deg, yellow, red);
+      background: linear-gradient(130deg, white, #60a3bc);
   }
   
   nav a:nth-child(2):hover ~ #indicator
   {
       left: 34%;
-      background: linear-gradient(130deg, #00e2ff, #89ff00);
+      background: linear-gradient(130deg, #7289d9, rgb(83 95 238));
   }
   
   nav a:nth-child(3):hover ~ #indicator
