@@ -1,3 +1,6 @@
+console.log('Salut mon pote');
+
+
 var socket = null;
 
 try {
@@ -30,8 +33,42 @@ try {
     console.error(exception);
 }
 
-//Récuperer les données du formulaire
 
-var login = document.getElementById("login");
 
-var mdp = document.getElementById("mdp");
+
+//Récuperer les données du formulaire de connexion
+function Connexion( ){
+
+    const login = document.getElementById( "login" ).value;
+    const pass  = document.getElementById( "mdp" ).value;
+
+    console.log( login, pass )
+
+    const crossLogin = {
+        login, pass
+    }
+
+    console.table( crossLogin )
+
+
+
+    return false;
+
+}
+
+
+//Récuperer les données du formulaire d'inscription
+function Inscription(){
+
+    const InscriptionLog = document.getElementById("Inlogin").value;
+    const InscriptionMdp = document.getElementById("Inpassword").value;
+    const mdpconfirm = document.getElementById("Inconfirmpass").value;
+
+console.log( InscriptionLog,InscriptionMdp, mdpconfirm)
+
+const crossInscrit = {
+    InscriptionLog,InscriptionMdp, mdpconfirm
+}
+
+console.table( crossInscrit )
+}
