@@ -226,12 +226,12 @@ button.message{
   
   nav a:nth-child(3):before
   {
-      background-color: purple;
+      background-color: rgb(36, 33, 36);
   }
   
   nav a:nth-child(3):after
   {
-      background-color: palevioletred;
+      background-color: rgb(94, 90, 91);
   }
   
   #indicator
@@ -270,7 +270,7 @@ button.message{
   nav a:nth-child(3):hover ~ #indicator
   {
       left: 70%;
-      background: linear-gradient(130deg, purple, palevioletred);
+      background: linear-gradient(130deg, rgb(0, 0, 0), rgb(235, 235, 235));
   }
   
   #ytd-url {
