@@ -26,15 +26,6 @@
     <QtRcc Include="Messagerie.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="Messagerie.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtMoc Include="Messagerie.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="Messagerie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

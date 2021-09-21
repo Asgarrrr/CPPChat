@@ -1,11 +1,14 @@
 #pragma once
 
-#include "database.h";
+#include "database.h"
 
 #include <QObject>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include <qtcpserver.h>
 #include <qtcpsocket.h>
 #include <qwebsocket.h>
+#include <QVector>
 
 class Server : public QObject
 {
@@ -16,12 +19,13 @@ public:
 	~Server();
 private:
 	QTcpServer * server;
-	Database * database;
 	QWebSocket * WebSocket;
+	Database * db;
+	QVector<QTcpSocket *> allClients;
 
 public slots:
 	void onServerNewConnection();
 	void onClientDisconnected();
-	void onClientReadyRead();
+	void onClientCommunication();
 	void onClientConnection();
 };

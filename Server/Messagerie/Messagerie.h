@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_Messagerie.h"
 
 class Messagerie : public QMainWindow
 {

@@ -29,3 +29,9 @@ try {
 } catch (exception) {
     console.error(exception);
 }
+
+//Récuperer les données du formulaire
+
+var login = document.getElementById("login");
+
+var mdp = document.getElementById("mdp");

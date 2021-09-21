@@ -1,51 +1,124 @@
-*{
-    font-family:Lucida, sans-serif;
+* {
+    font-family: Lucida, sans-serif;
 }
-body{
+
+body {
     background-color: whitesmoke;
     margin: 0;
 }
-.formulaire{
+
+.formulaire {
     text-align: center;
     margin: 100px auto 0 auto;
     width: 25%;
-    height: 400px;
-    background-color:white;
+    height: 450px;
+    background-color: white;
     border-radius: 5px;
     box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
 
 }
-form{
-    margin:0;
-    padding-top:20%;
+
+form {
+    margin: 0;
+    padding-top: 20%;
 }
 
-.form-nom{
+.form-nom {
     padding-bottom: 25px;
 }
-.form-mdp{
-    margin:auto;
+
+.form-mdp {
+    margin: auto;
+    padding-bottom: 25px;
 }
-input.champ{
+
+input.champ {
     border-radius: 5px;
     height: 25px;
     width: 60%;
+    border-color: rgb(235, 235, 235);
 }
-input.boutton{
-    margin-top:15%;
+
+button.Connexion {
+    margin-top: 12%;
     width: 30%;
     border-radius: 5px;
-    background-color:whitesmoke;
+    background-color: rgb(0, 0, 0);
     height: 40px;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
 }
-label{
+
+label {
     /*border-bottom: 10px;*/
     padding: 0px;
     display: block;
-    margin:0 0 15px 20%;
+    margin: 0 0 15px 20%;
     text-align: left;
     font-size: 15px;
 }
-p{
+
+p {
     text-align: center;
+}
+
+.lien {
+    margin: 2% 0% 0% 0%;
+    color: black;
+}
+
+
+
+/*--Chat--*/
+.Block{
+    background-color: rgb(255, 255, 255);
+    width: 50%;
+    height: 800px;
+    border-radius: 6px;
+    margin: 100px auto 0 auto;
+    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
+
+.chat{
+    background-color: #0d1117;
+    width: 94%;
+    height: 75%;
+    margin-left: 3%;
+    margin-right: 3%;
+    border-radius: 3px;
+    overflow-y: scroll;
+}
+
+.msg{
+    text-align: center;
+    width:100%;
+    margin-top: 2px;
+    height:15% ;
+    
+}
+textarea{
+    max-width: 90%;
+    min-width:90%;
+    max-height: 90%;
+    min-height: 90%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+    background-color: #161b22;
+    color: white;
+    font-size: 18px;
+}
+
+button.message{
+    margin-top: 2%;
+    text-align: center;
+    background-color:#0d1117;
+    color: white;
+    border-radius: 4px;
+    width: 20%;
+    height: 60%;
+}
+.bouttonmsg{
+    text-align: center;
+    height: 10%;
 }
