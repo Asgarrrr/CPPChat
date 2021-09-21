@@ -64,15 +64,21 @@ function Inscription( ){
     const InscriptionMdp = document.getElementById( "Inpassword" ).value;
     const mdpconfirm = document.getElementById( "Inconfirmpass" ).value;
 
-    console.log( InscriptionLog, InscriptionMdp, mdpconfirm)
+    if(InscriptionMdp == mdpconfirm){
+            console.log( InscriptionLog, InscriptionMdp, mdpconfirm)
     const crossInscrit = {
         InscriptionLog, InscriptionMdp,mdpconfirm
     }
 
     console.table( crossInscrit )
 
-
     return false;
+
+    }else{
+        return "erreur";
+    }
+
+
 }
 
 //Récuperer le message de l'utilisateur
@@ -86,3 +92,4 @@ function Message( ){
 
     return false;
 }
+
