@@ -24,8 +24,11 @@ h2{
     padding-top: 10%;
     color: white;
 }
+form{
+    height:10%;
+}
 
-form {
+form.ff {
     margin: 0;
     padding-top: 20%;
 }
@@ -115,7 +118,7 @@ p {
     width:80%;
     /*margin-top: 2px;*/
     margin-left: 4%;
-    height: 10%;
+    height: 100%;
     display: inline-block;
     
 }
@@ -137,19 +140,16 @@ button.message{
     color: white;
     border-radius: 4px;
     width: 150%;
-    height: 48%;
+    height: 100%;
     
     
 }
 .bouttonmsg{
     text-align: center;
     display: inline-block;
-    height: 20%;
+    height: 100%;
 }
 
-/*input::placeholder {
-    color:white;
-  }*/
 
   /*--Menu--*/
 

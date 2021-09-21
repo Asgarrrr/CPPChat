@@ -38,7 +38,7 @@ try {
 
 //Récuperer les données du formulaire de connexion
 function Connexion( ){
-
+    
     const login = document.getElementById( "login" ).value;
     const pass  = document.getElementById( "mdp" ).value;
 
@@ -58,17 +58,31 @@ function Connexion( ){
 
 
 //Récuperer les données du formulaire d'inscription
-function Inscription(){
+function Inscription( ){
 
-    const InscriptionLog = document.getElementById("Inlogin").value;
-    const InscriptionMdp = document.getElementById("Inpassword").value;
-    const mdpconfirm = document.getElementById("Inconfirmpass").value;
+    const InscriptionLog = document.getElementById( "Inlog" ).value;
+    const InscriptionMdp = document.getElementById( "Inpassword" ).value;
+    const mdpconfirm = document.getElementById( "Inconfirmpass" ).value;
 
-console.log( InscriptionLog,InscriptionMdp, mdpconfirm)
+    console.log( InscriptionLog, InscriptionMdp, mdpconfirm)
+    const crossInscrit = {
+        InscriptionLog, InscriptionMdp,mdpconfirm
+    }
 
-const crossInscrit = {
-    InscriptionLog,InscriptionMdp, mdpconfirm
+    console.table( crossInscrit )
+
+
+    return false;
 }
 
-console.table( crossInscrit )
+//Récuperer le message de l'utilisateur
+
+function Message( ){
+    const Messageuser = document.getElementById( "msg" ).value;
+
+    console.log( Messageuser )
+
+    console.table( Messageuser )
+
+    return false;
 }

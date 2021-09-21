@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -26,12 +26,15 @@
 
             </div>
         </div>
-        <div class="msg">
-            <input class="zonetext" id="msg" type="text" placeholder="Entrez votre texte ici" name="">
-            </div>
-        <div class="bouttonmsg">
-            <button class="message" type="submit">Envoyer</button>
-        </div>
+            <form method="post" onsubmit="return Message()">
+                <div class="msg">
+                    <input class="zonetext" id="msg" type="text" placeholder="Entrez votre texte ici" name="">
+                </div>
+                <div class="bouttonmsg">
+                    <button class="message">Envoyer</button>
+                </div>
+            </form>
+    </div>
     </div>
     </div>
 </body>
