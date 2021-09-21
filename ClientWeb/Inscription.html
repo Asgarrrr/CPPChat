@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javacript" src="Scripts/script.js"></script>
     <link rel="stylesheet" href="Css/Style.css">
     <title>S'inscrire</title>
 </head>
@@ -20,7 +21,7 @@
     </div>
     <div class="formulaire">
         <h2>Signup</h2>
-        <form action="" method="post">
+        <form action="" name="Inscription" method="post">
             <div class="form-nom">
                 <input class="champ" type="text" name="user_name" placeholder="Username">
             </div>
@@ -30,7 +31,7 @@
             <div class="form-mdpv">
                 <input class="champ" type="password" name="confirmpassword" placeholder="Confirmpassword">
             </div>
-            <button class="Connexion" type="submit">S'inscrire</button>
+            <button class="Connexion" type="submit" onclick="Inscription()" >S'inscrire</button>
         </form>
 
     </div>
