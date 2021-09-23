@@ -1,27 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="Scripts/script.js"></script>
     <link rel="stylesheet" href="Css/Style.css">
     <title>Chat</title>
 </head>
 
 <body>
+    <div>
+        <nav>
+            <a href="index.html">HOME</a>
+            <a href="Message.html">CHAT</a>
+            <a href="Compte.html">COMPTE</a>
+            <div id="indicator"></div>
+        </nav>
+    </div>
+
     <div class="Block">
         <div class="chat">
             <div class="zonemessage">
-
+                message
             </div>
         </div>
-        <div class="msg">
-            <textarea placeholder="Entrez votre message ici" name="user_message"></textarea>
-        </div>
-        <div class="bouttonmsg">
-            <button class="message" type="submit">Envoyer</button>
-        </div>
+            <form method="post" onsubmit="return Message()">
+                <div class="msg">
+                    <input class="zonetext" id="msg" type="text" placeholder="Entrez votre texte ici" name="">
+                </div>
+                <div class="bouttonmsg">
+                    <button class="message">Envoyer</button>
+                </div>
+            </form>
+    </div>
+    </div>
     </div>
 </body>
 

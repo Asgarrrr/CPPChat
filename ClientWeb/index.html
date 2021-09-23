@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javacript" src="Scripts/script.js"></script>
-    <link rel="stylesheet" href="Css/Style.css">
-    <title>Wishcord</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="Scripts/script.js"></script>
+        <link rel="stylesheet" href="Css/Style.css">
+        <title>Wishcord</title>
+    </head>
 
-<body>
-    <div class="menu">
+    <body>
+        <div>
+            <nav>
+                <a href="index.html">HOME</a>
+                <a href="Message.html">CHAT</a>
+                <a href="Compte.html">COMPTE</a>
+                <div id="indicator"></div>
+            </nav>
+        </div>
 
-    </div>
-
-
-    <div class="formulaire">
-        <form action="" method="post">
-            <div class="form-nom">
-                <div>
-                    <label for="name">Nom d'utilisateur</label>
+        <div class="formulaire">
+            <h2>Login</h2>
+            <form class="ff" name="connexion" method="post" onsubmit="return Connexion()">
+                <div class="form-nom">
+                    <input class="champ" id="login" type="text" name="user_name" placeholder="Username">
                 </div>
-                <input class="champ" id="login" type="text" name="user_name">
-            </div>
-            <div class="form-mdp">
-                <div>
-                    <label for="name">Mot de passe</label>
+                <div class="form-mdp">
+                    <input class="champ" id="mdp" type="password" name="password" placeholder="Password">
                 </div>
-                <input class="champ" id="mdp" type="password" name="password">
-            </div>
-            <div class="lien">
-                <a href="Inscription.html">S'inscrire</a>
-            </div>
-            <button class="Connexion" type="submit">Se Connecter</button>
-        </form>
 
-    </div>
+                <button class="Connexion">Se Connecter</button>
 
-    <p>Bon courage frero</p>
-</body>
+                <div class="lien">
+                    <a class="link" href="Inscription.html">Signup</a>
+                </div>
+            </form>
+
+        </div>
+    </body>
+    
 
 </html>

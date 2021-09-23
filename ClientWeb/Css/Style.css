@@ -3,22 +3,32 @@
 }
 
 body {
-    background-color: whitesmoke;
+    background-color: #292929;
     margin: 0;
 }
 
 .formulaire {
     text-align: center;
-    margin: 100px auto 0 auto;
+    margin: 150px auto 0 auto;
     width: 25%;
     height: 450px;
-    background-color: white;
+    background-color: rgba(0,0,0,.5);
     border-radius: 5px;
-    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    border: transparent;
 
 }
 
-form {
+h2{
+    margin:0px 0px 0px 0px;
+    padding-top: 10%;
+    color: white;
+}
+form{
+    height:10%;
+}
+
+form.ff {
     margin: 0;
     padding-top: 20%;
 }
@@ -31,24 +41,34 @@ form {
     margin: auto;
     padding-bottom: 25px;
 }
-
+.form-mdpv{
+    margin: 0% 0% 10% 0%;
+}
 input.champ {
-    border-radius: 5px;
+    border-radius: 4px;
     height: 25px;
     width: 60%;
-    border-color: rgb(235, 235, 235);
+    border: 2px solid #ddd;
+    outline: 0;
+    transition: .2s;
 }
 
 button.Connexion {
-    margin-top: 12%;
-    width: 30%;
-    border-radius: 5px;
-    background-color: rgb(0, 0, 0);
-    height: 40px;
-    color: rgb(255, 255, 255);
-    font-size: 15px;
+	color: #fff !important;
+	text-transform: uppercase;
+	background: #60a3bc;
+	padding: 20px;
+	border-radius: 50px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
 }
-
+button.Connexion:hover{
+    text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+	box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.4s ease 0s;
+}
 label {
     /*border-bottom: 10px;*/
     padding: 0px;
@@ -63,62 +83,216 @@ p {
 }
 
 .lien {
-    margin: 2% 0% 0% 0%;
-    color: black;
+    margin: 3% 0% 0% 0%;
+}
+.link{
+    color:white;
+    text-decoration:none;
 }
 
 
 
 /*--Chat--*/
 .Block{
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(0,0,0,.5);
     width: 50%;
-    height: 800px;
+    height: 700px;
     border-radius: 6px;
     margin: 100px auto 0 auto;
-    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+    box-shadow:0 15px 25px rgba(0,0,0,.6);
 }
 
 .chat{
-    background-color: #0d1117;
+    background-color: rgb(63, 63, 63);
     width: 94%;
-    height: 75%;
+    height: 90%;
     margin-left: 3%;
     margin-right: 3%;
     border-radius: 3px;
     overflow-y: scroll;
+    margin-top: 3%;
 }
 
 .msg{
     text-align: center;
-    width:100%;
-    margin-top: 2px;
-    height:15% ;
+    width:80%;
+    /*margin-top: 2px;*/
+    margin-left: 4%;
+    height: 100%;
+    display: inline-block;
     
 }
-textarea{
-    max-width: 90%;
-    min-width:90%;
-    max-height: 90%;
-    min-height: 90%;
+input.zonetext{
+    width: 100%;
+    height: 90%;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    box-shadow: 1px 1px 1px #999;
-    background-color: #161b22;
+    border: 1px solid rgb(0, 0, 0);
+    /*box-shadow: 1px 1px 1px #999;*/
+    background-color: #2d2d2d;
     color: white;
     font-size: 18px;
 }
 
 button.message{
-    margin-top: 2%;
-    text-align: center;
-    background-color:#0d1117;
+    border: 1px solid rgb(0, 0, 0);
+    /*box-shadow: 1px 1px 1px #999;*/
+    background-color: #2d2d2d;
     color: white;
     border-radius: 4px;
-    width: 20%;
-    height: 60%;
+    width: 150%;
+    height: 100%;
+    
+    
 }
 .bouttonmsg{
     text-align: center;
-    height: 10%;
+    display: inline-block;
+    height: 100%;
 }
+
+
+.zonemessage{
+    color:white;
+    margin: 0% 0% 0% 2%;
+    width:90%;
+}
+
+  /*--Menu--*/
+
+  nav
+  {
+      position: absolute;
+      top: 5%;
+      right: 0;
+      left: 0;
+      width: 319px;
+      display: table;
+      margin: 0 auto;
+      transform: translateY(-50%);
+  }
+  
+  nav a
+  {
+      position: relative;
+      width: 33.333%;
+      display: table-cell;
+      text-align: center;
+      color: #949494;
+      text-decoration: none;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: bold;
+      padding: 10px 20px;
+      transition: 0.2s ease color;
+  }
+  
+  nav a:before, nav a:after
+  {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: 0.2s ease transform;
+  }
+  
+  nav a:before
+  {
+      top: 0;
+      left: 10px;
+      width: 6px;
+      height: 6px;
+  }
+  
+  nav a:after
+  {
+      top: 5px;
+      left: 18px;
+      width: 4px;
+      height: 4px
+  }
+  
+  nav a:nth-child(1):before
+  {
+      background-color: white;
+  }
+  
+  nav a:nth-child(1):after
+  {
+      background-color: #60a3bc;
+  }
+  
+  nav a:nth-child(2):before
+  {
+      background-color: #7289d9;
+  }
+  
+  nav a:nth-child(2):after
+  {
+      background-color: rgb(83 95 238);
+  }
+  
+  nav a:nth-child(3):before
+  {
+      background-color: rgb(36, 33, 36);
+  }
+  
+  nav a:nth-child(3):after
+  {
+      background-color: rgb(94, 90, 91);
+  }
+  
+  #indicator
+  {
+      position: absolute;
+      left: 5%;
+      bottom: 0;
+      width: 30px;
+      height: 3px;
+      background-color: #fff;
+      border-radius: 5px;
+      transition: 0.2s ease left;
+  }
+  
+  nav a:hover
+  {
+      color: #fff;
+  }
+  
+  nav a:hover:before, nav a:hover:after
+  {
+      transform: scale(1);
+  }
+  
+  nav a:nth-child(1):hover ~ #indicator
+  {
+      background: linear-gradient(130deg, white, #60a3bc);
+  }
+  
+  nav a:nth-child(2):hover ~ #indicator
+  {
+      left: 34%;
+      background: linear-gradient(130deg, #7289d9, rgb(83 95 238));
+  }
+  
+  nav a:nth-child(3):hover ~ #indicator
+  {
+      left: 70%;
+      background: linear-gradient(130deg, rgb(0, 0, 0), rgb(235, 235, 235));
+  }
+  
+  #ytd-url {
+    display: block;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    padding: 10px 14px;
+    margin: 20px;
+    color: #fff;
+    font-family: Arial;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: #000;
+    border-radius: 4px;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+    z-index: 125;
+  }
+  
