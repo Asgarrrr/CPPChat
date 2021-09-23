@@ -8,6 +8,7 @@
 #include <qtcpserver.h>
 #include <qtcpsocket.h>
 #include <qwebsocket.h>
+#include <QWebSocketServer>
 #include <QVector>
 
 class Server : public QObject
@@ -19,13 +20,13 @@ public:
 	~Server();
 private:
 	QTcpServer * server;
-	QWebSocket * WebSocket;
+	QWebSocketServer * webServer;
 	Database * db;
-	QVector<QTcpSocket *> allClients;
+	QVector<QTcpSocket *> allTcpClients;
 
 public slots:
 	void onServerNewConnection();
 	void onClientDisconnected();
 	void onClientCommunication();
-	void onClientConnection();
+	//void onWebServerNewConnection();
 };

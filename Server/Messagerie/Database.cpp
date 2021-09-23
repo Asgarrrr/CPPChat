@@ -50,40 +50,30 @@ char Database::inscription(QString inscriptionLogin, QString inscriptionPass, QS
 	}
 }
 //Verifie la connexion
-bool Database::login(QString login, QString pass)
+int Database::login(QString login, QString pass)
 {
 	QSqlQuery request;
-
-	request.prepare("SELECT * FROM `users` WHERE _login = ? AND _password = ? ");
+	request.prepare("SELECT * FROM `users` WHERE _login = ? AND _password = ? limit 1");
 	request.addBindValue(login);
 	request.addBindValue(pass);
+
 	request.exec();
 
-	qDebug() << request.value(0);
+	request.first();
 
-	
-
-	if (request.isNull('_ID')) {
-		qDebug() << "false";
-		return false;
-	}
-	else {
-		qDebug() << "true";
-		return true;
-	}
+	return request.size() == 1 ? request.value( 0 ).toInt() : 0;
 
 }
 //enregistre le message dans la BDD
-void Database::sendMessageInDB(QString login, QString pass, QString message)
+std::string Database::sendMessageInDB(int ID, QString message)
 {
 	QString pseudo;
 	QVariant pseudoTemp;
 	QSqlQuery requestPseudo;
-	requestPseudo.prepare("SELECT `_pseudo` FROM `users` WHERE `_login` = ? AND `_password` = ?");
+	requestPseudo.prepare("SELECT `_pseudo` FROM `users` WHERE `_ID` = ?");
 
 	QSqlQuery requestInsertMessage;
-	requestPseudo.addBindValue(login);
-	requestPseudo.addBindValue(pass);
+	requestPseudo.addBindValue(ID);
 	requestPseudo.exec();
 	pseudoTemp = requestPseudo.value(0);
 	pseudo = pseudoTemp.toString();
@@ -92,4 +82,6 @@ void Database::sendMessageInDB(QString login, QString pass, QString message)
 	requestInsertMessage.addBindValue(pseudo);
 	requestInsertMessage.addBindValue(message);
 	requestInsertMessage.exec();
+
+	return pseudo.toStdString();
 }

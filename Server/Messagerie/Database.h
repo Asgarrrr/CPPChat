@@ -16,8 +16,8 @@ public:
 	Database(QObject *parent = Q_NULLPTR);
 	~Database();
 
-	void sendMessageInDB(QString login, QString pass, QString message);
-	bool login(QString login, QString pass);
+	std::string sendMessageInDB(int ID, QString message);
+	int login(QString login, QString pass);
 	void connectToDB();
 	char inscription(QString inscriptionLogin, QString inscriptionPass, QString inscriptionPseudo);
 };

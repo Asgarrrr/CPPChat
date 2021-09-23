@@ -5,11 +5,13 @@ Server::Server( QObject *parent ) : QObject( parent ) {
 
 	QObject::connect(server, SIGNAL(newConnection()), this, SLOT(onServerNewConnection()));
 
-	server->listen(QHostAddress::AnyIPv4, 4444);
+	server->listen(QHostAddress::AnyIPv4, 4456);
 	db = new Database(this);
 	db->connectToDB();
 
 }
+
+
 
 Server::~Server()
 {
@@ -20,11 +22,11 @@ void Server::onServerNewConnection()
 	QTcpSocket * client = server->nextPendingConnection();
 	QTcpSocket::connect(client, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
 	QTcpSocket::connect(client, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
-	allClients.append(client);
+	allTcpClients.append(client);
 
 
 	
-	qDebug() << "suck";
+	qDebug() << "I te suck";
 }
 
 
@@ -44,69 +46,86 @@ void Server::onClientCommunication()
 	
 	//passe data de tableau a string
 	QString strData( data );
-	//repasse en tableau en acceptant les caracteres speciaux
-	QByteArray arrayData = strData.toUtf8();
-	//transforme le tableau en docuement
-	QJsonDocument jsonData = QJsonDocument::fromJson(arrayData);
-	//et le transforme en objet lisible
-	QJsonObject objectData = jsonData.object();
 
-	QString cryptLogin, cryptPass, login, pass, message, inscriptionLogin, inscriptionPass, inscriptionPseudo;
-	//client
-	QDataStream returnObj(obj);
-	QJsonObject returnData;
+	QString cryptLogin, cryptPass, login, pass, message, inscriptionLogin, inscriptionPass, inscriptionPseudo, pseudo;
+	int ID;
+	//Expression regulière pour le type de message envoyé
+	QRegExp regExp("^code:(\\d{0,2})");
+	int codePos = regExp.indexIn(strData);
+	QStringList list = regExp.capturedTexts();
 
-	qDebug() << objectData;
-	
+	//Expression regulière pour l'authentification
+	QRegExp regExpLogin("login:(.+)password:(.+)$");
+	int codePosLogin = regExpLogin.indexIn(strData);
+	QStringList listLogin = regExpLogin.capturedTexts();
+
+	//Expression regulière pour l'inscription
+	QRegExp regExpRegister("^code:(\\d{0,2})");
+	int codePosRegister = regExpRegister.indexIn(strData);
+	QStringList listRegister = regExpRegister.capturedTexts();
+
+	//Expression regulière pour le message
+	QRegExp regExpMessage("^code:(\\d{0,2})");
+	int codePosMessage = regExpMessage.indexIn(strData);
+	QStringList listMessage = regExpMessage.capturedTexts();
+
 	//effectue la connexion, l'inscription ou gere les messages
-	switch (objectData["code"].toInt())
+	switch (list.at(1).toInt())
 	{
 		//cas ou code = 1 est une authentification
 	case 1:
-		//recuperation des infos de connexion
-		login = objectData["login"].toString();
-		pass = objectData["password"].toString();
-		//test bdd si existant true sinon false et creation du renvoie en fonction du cas
-		if (db->login(login, pass) == true) {
-			returnData["code"] = 1;
-			returnData["value"] = 1;
-			qDebug() << "true";
-		}
-		else {
-			returnData["code"] = 1;
-			returnData["value"] = 0;
-			qDebug() << "false";
-		}
-		//renvoie l'objet json au client
-		returnObj << returnData;
-		qDebug() << login << pass;
-
-		break;
-		//cas ou code = 2 est un message
-	case 2:
-		message = objectData["message"].toString();
-		db->sendMessageInDB(login, pass, message);
-		for (QTcpSocket *allClients : allClients) {
-			returnObj << returnData;//envoyer le message ici
-		}
-		break;
-		//cas ou code = 3 est l'inscription
-	case 3:
-		//recuperation des infos d'inscription
-		inscriptionLogin = objectData["inscriptionLogin"].toString();
-		inscriptionPass = objectData["inscriptionLogin"].toString();
-		inscriptionPseudo = objectData["inscriptionLogin"].toString();
-		//envoie BDD : Si réussi, cas 't', si echoue, cas 'f', si compte existant, cas 'e'
-		switch (db->inscription(inscriptionLogin, inscriptionPass, inscriptionPseudo)) 
 		{
+			//recuperation des infos de connexion
+			login = listLogin.at(1).toUtf8();
+			pass = listLogin.at(2).toUtf8();
+			qDebug() << login << pass;
+			ID = db->login(login, pass);
 
-		case 't':
-			break;
-		case 'f':
-			break;
-		case 'e':
-			break;
+			//Envoie la réponse au client avec l'ID
+			QString test = "code:01ID:" + QString::number(ID);
+			obj->write(test.toStdString().c_str());
+
 		}
+		break;
+		//cas ou code = 2 est l'inscription
+	case 2:
+		{
+			//recuperation des infos d'inscription
+			inscriptionLogin = listRegister.at(2).toUtf8();
+			inscriptionPass = listRegister.at(3).toUtf8();
+			inscriptionPseudo = listRegister.at(4).toUtf8();
+			//envoie BDD : Si réussi, cas 't', si echoue, cas 'f', si compte existant, cas 'e'
+			switch (db->inscription(inscriptionLogin, inscriptionPass, inscriptionPseudo))
+			{
+
+			case 't':
+				break;
+			case 'f':
+				break;
+			case 'e':
+				break;
+			}
+		}
+		break;
+		//cas ou code = 3 est un message
+	case 3:
+		{
+			ID = listMessage.at(2).toInt;
+			message = listMessage.at(3).toUtf8();
+			std::string pseudo = db->sendMessageInDB(ID, message);
+			//envoie message TCP
+			//for (QTcpSocket *allClients : allTcpClients) {
+			//	returnObj << returnData;//envoyer le message ici
+			//}
+			//envoie message web
+			//for (QTcpSocket *allClients : allWebClients) {
+				//returnObj << returnData;//envoyer le message ici
+			//}
+		}
+		break;
+
+	default:
+		break;
 	}
 	
 	qDebug() << data;
@@ -115,6 +134,4 @@ void Server::onClientCommunication()
 
 
 
-void Server::onClientConnection()
-{
-}
+
