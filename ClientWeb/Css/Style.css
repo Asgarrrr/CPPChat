@@ -42,7 +42,7 @@ form.ff {
     padding-bottom: 25px;
 }
 .form-mdpv{
-    margin: 0% 0% 10% 0%;
+    margin: 0% 0% 5% 0%;
 }
 input.champ {
     border-radius: 4px;
@@ -90,6 +90,10 @@ p {
     text-decoration:none;
 }
 
+.result{
+    margin: 5% 0% 0% 0%;
+    color:red;
+}
 
 
 /*--Chat--*/
@@ -150,14 +154,30 @@ button.message{
     height: 100%;
 }
 
-
-.zonemessage{
+.usermessage{
     color:white;
     margin: 0% 0% 0% 2%;
-    width:90%;
+    width:95%;
+    border:solid;
+    padding: 15px 0px 15px 15px;
+    font-size: 16px;
 }
 
-  /*--Menu--*/
+    /*--Compte--*/
+
+.Profil{
+    background-color: rgba(0,0,0,.5);
+    width:25%;
+    height: 600px;
+    margin: 150px auto 0 auto;
+    /*margin: 10% 0% 0% 38%;*/
+    border-radius: 5px;
+    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    border: transparent;
+}
+
+
+    /*--Menu--*/
 
   nav
   {

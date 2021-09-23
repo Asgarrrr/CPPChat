@@ -56,7 +56,7 @@ function Connexion( ){
 
 }
 
-
+const msgerreur = "Erreur mot de passe";
 //Récuperer les données du formulaire d'inscription
 function Inscription( ){
 
@@ -72,10 +72,15 @@ function Inscription( ){
 
     console.table( crossInscrit )
 
+    socket.send( crossInscrit )
+
     return false;
 
     }else{
-        return "erreur";
+        console.log('erreur mot de passe');
+        
+        document.getElementById("result").innerHTML = msgerreur;
+        return false;
     }
 
 
@@ -88,8 +93,20 @@ function Message( ){
 
     console.log( Messageuser )
 
-    console.table( Messageuser )
+    //console.table( Messageuser )
+
+    socket.send( Messageuser );
 
     return false;
 }
+
+//Recupere un message et l'ajoute dans une div
+socket.onmessage = function(event){
+    const message = event.data;
+
+    const messageElem = document.createElement('div');
+    messageElem.textContent = message;
+    document.getElementById('messages').prepend(messageElem);
+}
+
 
