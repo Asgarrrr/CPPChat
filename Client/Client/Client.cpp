@@ -3,6 +3,7 @@
 #include <QRegExp>
 #include <QMainWindow>
 #include <QCryptographicHash>
+#include <QFileDialog>
 
 Client::Client( QTcpSocket * socket, int ID, QWidget *parent) : QMainWindow(parent) {
 
@@ -35,3 +36,4 @@ void Client::sendMessage( ) {
 
 
 }
+

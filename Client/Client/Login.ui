@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>247</width>
-    <height>312</height>
+    <height>351</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>247</width>
+    <height>312</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Login</string>
@@ -17,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>130</y>
+     <y>170</y>
      <width>181</width>
      <height>20</height>
     </rect>
@@ -30,7 +36,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>180</y>
+     <y>220</y>
      <width>181</width>
      <height>20</height>
     </rect>
@@ -43,7 +49,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>110</y>
+     <y>150</y>
      <width>47</width>
      <height>13</height>
     </rect>
@@ -56,7 +62,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>160</y>
+     <y>200</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -69,7 +75,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>210</y>
+     <y>250</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -82,7 +88,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>260</y>
+     <y>300</y>
      <width>211</width>
      <height>20</height>
     </rect>
@@ -110,6 +116,48 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonRegister">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>250</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>S'inscrire</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditPseudo">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>120</y>
+     <width>181</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Asgarrrr</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelPseudo">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>100</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Pseudo</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -130,8 +178,58 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>lineEditLogin</sender>
+   <signal>returnPressed()</signal>
+   <receiver>Login</receiver>
+   <slot>oauth()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>120</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>123</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditPassword</sender>
+   <signal>returnPressed()</signal>
+   <receiver>Login</receiver>
+   <slot>oauth()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>120</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>123</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonRegister</sender>
+   <signal>clicked()</signal>
+   <receiver>Login</receiver>
+   <slot>switchState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>123</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>oauth()</slot>
+  <slot>regist()</slot>
+  <slot>switchState()</slot>
  </slots>
 </ui>
