@@ -50,30 +50,13 @@ QString Database::inscription(QString inscriptionLogin, QString inscriptionPass,
 			return "code:01ID:" + request.value(0).toString() + "pseudo:" + request.value(1).toString();
 		}
 		else {
-			return 0;
+			return "0";
 		}
 	}
 	else {
 
-		return 0;
+		return "0";
 	}
-
-	
-
-	switch (insert.exec())
-		{
-		case true:
-		{
-			
-		}
-			break;
-		case false:
-			return 0;
-			break;
-		}
-	
-
-	
 }
 std::vector<std::string> Database::sendLastMessagesToClient()
 {
@@ -107,7 +90,7 @@ int Database::login(QString login, QString pass)
 	return request.size() == 1 ? request.value( 0 ).toInt() : 0;
 
 }
-//enregistre le message dans la BDD
+//enregistre le message dans la BDD et retourne le pseudo de l'emetteur du message
 std::string Database::sendMessageInDB(int ID, QString message)
 {
 	QString pseudo;
