@@ -1,14 +1,11 @@
 #include "Server.h"
-
-Server::Server( QObject *parent ) : QObject( parent ) {
+#include "WebServer.h"
+Server::Server( Database * db, QObject *parent ) : QObject( parent ) {
 	server = new QTcpServer(this);
-
 	QObject::connect(server, SIGNAL(newConnection()), this, SLOT(onServerNewConnection()));
-
+	
+	this->db = db;
 	server->listen(QHostAddress::AnyIPv4, 4456);
-	db = new Database(this);
-	db->connectToDB();
-
 }
 
 
@@ -16,9 +13,21 @@ Server::Server( QObject *parent ) : QObject( parent ) {
 Server::~Server()
 {
 }
+//retourne le tableau des clients tcp connecté
+QVector<QTcpSocket*> & Server::getAllTcpClientsConnection()
+{
+	return allTcpClients;
+}
+
+//permet d'inclure la classe webServer dans server
+void Server::setWebServer(WebServer * webServer)
+{
+	this->webServer = webServer;
+}
 
 void Server::onServerNewConnection()
 {
+	
 	QTcpSocket * client = server->nextPendingConnection();
 	QTcpSocket::connect(client, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
 	QTcpSocket::connect(client, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
@@ -36,6 +45,7 @@ void Server::onClientDisconnected()
 	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
 	QObject::disconnect(obj, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
 	QObject::disconnect(obj, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
+	allTcpClients.removeOne(obj);
 	obj->deleteLater();
 }
 // communication client .
@@ -47,7 +57,7 @@ void Server::onClientCommunication()
 	//passe data de tableau a string
 	QString strData( data );
 
-	QString cryptLogin, cryptPass, login, pass, message, inscriptionLogin, inscriptionPass, inscriptionPseudo, pseudo;
+	QString cryptLogin, cryptPass, login, pass, message, inscriptionLogin, inscriptionPass, inscriptionPseudo;
 	int ID;
 	//Expression regulière pour le type de message envoyé
 	QRegExp regExp("^code:(\\d{0,2})");
@@ -60,12 +70,12 @@ void Server::onClientCommunication()
 	QStringList listLogin = regExpLogin.capturedTexts();
 
 	//Expression regulière pour l'inscription
-	QRegExp regExpRegister("^code:(\\d{0,2})");
+	QRegExp regExpRegister("login:(.+)password:(.+)pseudo:(.+)$");
 	int codePosRegister = regExpRegister.indexIn(strData);
 	QStringList listRegister = regExpRegister.capturedTexts();
 
 	//Expression regulière pour le message
-	QRegExp regExpMessage("^code:(\\d{0,2})");
+	QRegExp regExpMessage("ID:(\\d+)message:(.+)$");
 	int codePosMessage = regExpMessage.indexIn(strData);
 	QStringList listMessage = regExpMessage.capturedTexts();
 
@@ -82,8 +92,18 @@ void Server::onClientCommunication()
 			ID = db->login(login, pass);
 
 			//Envoie la réponse au client avec l'ID
-			QString test = "code:01ID:" + QString::number(ID);
-			obj->write(test.toStdString().c_str());
+			QString response = "code:01ID:" + QString::number(ID);
+			obj->write(response.toStdString().c_str());
+
+			//Envoie les 100 dernières messages au client
+			std::vector<std::string> lastMessages;
+			lastMessages = db->sendLastMessagesToClient();
+
+			for (std::string message : lastMessages) {
+				obj->write(message.c_str());//envoyer le message ici
+			}
+			
+
 
 		}
 		break;
@@ -94,7 +114,7 @@ void Server::onClientCommunication()
 			inscriptionLogin = listRegister.at(2).toUtf8();
 			inscriptionPass = listRegister.at(3).toUtf8();
 			inscriptionPseudo = listRegister.at(4).toUtf8();
-			//envoie BDD : Si réussi, cas 't', si echoue, cas 'f', si compte existant, cas 'e'
+			//envoie BDD : Si réussi, cas 't', si echoue, cas 'f'
 			switch (db->inscription(inscriptionLogin, inscriptionPass, inscriptionPseudo))
 			{
 
@@ -102,31 +122,36 @@ void Server::onClientCommunication()
 				break;
 			case 'f':
 				break;
-			case 'e':
-				break;
 			}
 		}
 		break;
 		//cas ou code = 3 est un message
 	case 3:
 		{
-			ID = listMessage.at(2).toInt;
-			message = listMessage.at(3).toUtf8();
+
+		qDebug() << listMessage;
+			ID = listMessage.at(1).toInt();
+			message = listMessage.at(2).toUtf8();
 			std::string pseudo = db->sendMessageInDB(ID, message);
+			//recupère le tableau des connexions web
+			QVector<QWebSocket *> allWebClients;
+			allWebClients = webServer->getAllWebClientsConnection();
+			QString sendMessage = "code:03ID:" + QString::number(ID) + "pseudo:" + pseudo.c_str() + "message:" + message.toUtf8();
 			//envoie message TCP
-			//for (QTcpSocket *allClients : allTcpClients) {
-			//	returnObj << returnData;//envoyer le message ici
-			//}
+			for (QTcpSocket *socket : allTcpClients) {
+				socket->write(sendMessage.toUtf8());//envoyer le message ici
+			}
 			//envoie message web
-			//for (QTcpSocket *allClients : allWebClients) {
-				//returnObj << returnData;//envoyer le message ici
-			//}
+			for (QWebSocket *webSocket : allWebClients) {
+				webSocket->sendTextMessage(sendMessage.toUtf8());//envoyer le message ici
+			}
 		}
 		break;
 
 	default:
 		break;
 	}
+
 	
 	qDebug() << data;
 	

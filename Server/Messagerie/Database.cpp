@@ -44,10 +44,24 @@ char Database::inscription(QString inscriptionLogin, QString inscriptionPass, QS
 	case false:
 		return 'f';
 		break;
-	default:
-		return 'e';
-		break;
 	}
+}
+std::vector<std::string> Database::sendLastMessagesToClient()
+{
+	std::vector<std::string> result;
+	QString pseudo, message;
+
+	QSqlQuery request;
+	request.prepare("SELECT `_pseudo`,`_message` FROM `message` WHERE 1 ORDER BY `_ID` LIMIT 100");
+	request.exec();
+	request.last();
+
+	do {
+		pseudo = request.value(0).toString();
+		message = request.value(1).toString();
+		result.push_back("code:03pseudo:" + pseudo.toStdString() + "message:" + message.toStdString());
+	} while (request.previous());
+	return result;
 }
 //Verifie la connexion
 int Database::login(QString login, QString pass)
@@ -75,6 +89,7 @@ std::string Database::sendMessageInDB(int ID, QString message)
 	QSqlQuery requestInsertMessage;
 	requestPseudo.addBindValue(ID);
 	requestPseudo.exec();
+	requestPseudo.first();
 	pseudoTemp = requestPseudo.value(0);
 	pseudo = pseudoTemp.toString();
 

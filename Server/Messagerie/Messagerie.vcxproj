@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="WebServer.cpp" />
     <QtRcc Include="Messagerie.qrc" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -95,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Database.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="WebServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

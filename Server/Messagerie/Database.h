@@ -20,6 +20,7 @@ public:
 	int login(QString login, QString pass);
 	void connectToDB();
 	char inscription(QString inscriptionLogin, QString inscriptionPass, QString inscriptionPseudo);
+	std::vector<std::string> sendLastMessagesToClient();
 };
 
 

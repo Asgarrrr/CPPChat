@@ -37,12 +37,18 @@
     <ClCompile Include="Database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WebServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Server.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Database.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WebServer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
