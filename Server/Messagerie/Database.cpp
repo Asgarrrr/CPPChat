@@ -21,30 +21,59 @@ void Database::connectToDB()
 
 	if (db.open())
 	{
-		qDebug() << "Connecté";
+		qDebug() << "Connexion a la BDD reussie";
 	}
 	else {
-		qDebug() << "Erreur de connexion";
+		qDebug() << "Erreur de connexion a la BDD";
 		exit(1);
 	}
 }
-char Database::inscription(QString inscriptionLogin, QString inscriptionPass, QString inscriptionPseudo)
+int Database::inscription(QString inscriptionLogin, QString inscriptionPass)//, QString inscriptionPseudo
 {
+	QSqlQuery insert;
 	QSqlQuery request;
+	qDebug() << inscriptionLogin << inscriptionPass;
 
-	request.prepare("INSERT INTO `users`(`_login`, `_password`, `_pseudo`) VALUES (?,?,?)");
-	request.addBindValue(inscriptionLogin);
-	request.addBindValue(inscriptionPass);
-	request.addBindValue(inscriptionPseudo);
-	switch (request.exec())
-	{
-	case true:
-		return 't';
-		break;
-	case false:
-		return 'f';
-		break;
+	if ((Database::login(inscriptionLogin, inscriptionPass)) == 0) {
+
+		insert.prepare("INSERT INTO `users`(`_login`, `_password`) VALUES (?,?)");
+		insert.addBindValue(inscriptionLogin);
+		insert.addBindValue(inscriptionPass);
+		//insert.addBindValue(inscriptionPseudo);, `_pseudo`
+		if (insert.exec()) {
+			request.prepare("SELECT `_ID` FROM `users` WHERE _login = ? AND _password = ? limit 1");
+			request.addBindValue(inscriptionLogin);
+			request.addBindValue(inscriptionPass);
+			request.exec();
+			request.first();
+			qDebug() << "Un utilisateur s'est inscrit";
+			return request.value(0).toInt();
+		}
+		else {
+			return 0;
+		}
 	}
+	else {
+
+		return 0;
+	}
+
+	
+
+	switch (insert.exec())
+		{
+		case true:
+		{
+			
+		}
+			break;
+		case false:
+			return 0;
+			break;
+		}
+	
+
+	
 }
 std::vector<std::string> Database::sendLastMessagesToClient()
 {
@@ -52,7 +81,7 @@ std::vector<std::string> Database::sendLastMessagesToClient()
 	QString pseudo, message;
 
 	QSqlQuery request;
-	request.prepare("SELECT `_pseudo`,`_message` FROM `message` WHERE 1 ORDER BY `_ID` LIMIT 100");
+	request.prepare("SELECT `_pseudo`,`_message` FROM `message` WHERE 1 ORDER BY `_ID` DESC LIMIT 100");
 	request.exec();
 	request.last();
 
@@ -97,6 +126,6 @@ std::string Database::sendMessageInDB(int ID, QString message)
 	requestInsertMessage.addBindValue(pseudo);
 	requestInsertMessage.addBindValue(message);
 	requestInsertMessage.exec();
-
+	qDebug() << "Le message a ete stocke dans la BDD";
 	return pseudo.toStdString();
 }

@@ -35,7 +35,7 @@ void Server::onServerNewConnection()
 
 
 	
-	qDebug() << "I te suck";
+	qDebug() << "Un client TCP s'est connecte";
 }
 
 
@@ -53,6 +53,7 @@ void Server::onClientCommunication()
 {	//écoute le client puis récupère son message
 	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
 	QByteArray data = obj->read(obj->bytesAvailable());
+	qDebug() << data;
 	
 	//passe data de tableau a string
 	QString strData( data );
@@ -70,7 +71,7 @@ void Server::onClientCommunication()
 	QStringList listLogin = regExpLogin.capturedTexts();
 
 	//Expression regulière pour l'inscription
-	QRegExp regExpRegister("login:(.+)password:(.+)pseudo:(.+)$");
+	QRegExp regExpRegister("login:(.+)password:(.+)$");
 	int codePosRegister = regExpRegister.indexIn(strData);
 	QStringList listRegister = regExpRegister.capturedTexts();
 
@@ -88,12 +89,12 @@ void Server::onClientCommunication()
 			//recuperation des infos de connexion
 			login = listLogin.at(1).toUtf8();
 			pass = listLogin.at(2).toUtf8();
-			qDebug() << login << pass;
 			ID = db->login(login, pass);
 
 			//Envoie la réponse au client avec l'ID
 			QString response = "code:01ID:" + QString::number(ID);
 			obj->write(response.toStdString().c_str());
+			
 
 			//Envoie les 100 dernières messages au client
 			std::vector<std::string> lastMessages;
@@ -111,17 +112,19 @@ void Server::onClientCommunication()
 	case 2:
 		{
 			//recuperation des infos d'inscription
-			inscriptionLogin = listRegister.at(2).toUtf8();
-			inscriptionPass = listRegister.at(3).toUtf8();
-			inscriptionPseudo = listRegister.at(4).toUtf8();
-			//envoie BDD : Si réussi, cas 't', si echoue, cas 'f'
-			switch (db->inscription(inscriptionLogin, inscriptionPass, inscriptionPseudo))
-			{
+			inscriptionLogin = listRegister.at(1).toUtf8();
+			inscriptionPass = listRegister.at(2).toUtf8();
+			//inscriptionPseudo = listRegister.at(3).toUtf8();, inscriptionPseudo
+			ID = db->inscription(inscriptionLogin, inscriptionPass);
+			QString response = "code:01ID:" + QString::number(ID);
+			obj->write(response.toStdString().c_str());
 
-			case 't':
-				break;
-			case 'f':
-				break;
+			//Envoie les 100 dernières messages au client
+			std::vector<std::string> lastMessages;
+			lastMessages = db->sendLastMessagesToClient();
+
+			for (std::string message : lastMessages) {
+				obj->write(message.c_str());//envoyer le message ici
 			}
 		}
 		break;
@@ -129,7 +132,7 @@ void Server::onClientCommunication()
 	case 3:
 		{
 
-		qDebug() << listMessage;
+		qDebug() << "Un message a ete recu";
 			ID = listMessage.at(1).toInt();
 			message = listMessage.at(2).toUtf8();
 			std::string pseudo = db->sendMessageInDB(ID, message);
@@ -141,20 +144,18 @@ void Server::onClientCommunication()
 			for (QTcpSocket *socket : allTcpClients) {
 				socket->write(sendMessage.toUtf8());//envoyer le message ici
 			}
+			qDebug() << "Le message a ete envoye a tout les clients TCP";
 			//envoie message web
 			for (QWebSocket *webSocket : allWebClients) {
 				webSocket->sendTextMessage(sendMessage.toUtf8());//envoyer le message ici
 			}
+			qDebug() << "Le message a ete envoye a tout les clients WEB";
 		}
 		break;
 
 	default:
 		break;
 	}
-
-	
-	qDebug() << data;
-	
 }
 
 

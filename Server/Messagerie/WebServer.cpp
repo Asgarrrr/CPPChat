@@ -43,8 +43,105 @@ void WebServer::onWebClientDisconnected()
 	obj->deleteLater();
 }
 
-void WebServer::onWebClientCommunication()
+void WebServer::onWebClientCommunication(QString entryMessage)
 {
+	//écoute le client puis récupère son message
+	QWebSocket * obj = qobject_cast<QWebSocket*>(sender());
+	QString data = entryMessage;
+
+	QString cryptLogin, cryptPass, login, pass, message, inscriptionLogin, inscriptionPass, inscriptionPseudo;
+	int ID;
+	//Expression regulière pour le type de message envoyé
+	QRegExp regExp("^code:(\\d{0,2})");
+	int codePos = regExp.indexIn(data);
+	QStringList list = regExp.capturedTexts();
+
+	//Expression regulière pour l'authentification
+	QRegExp regExpLogin("login:(.+)password:(.+)$");
+	int codePosLogin = regExpLogin.indexIn(data);
+	QStringList listLogin = regExpLogin.capturedTexts();
+
+	//Expression regulière pour l'inscription
+	QRegExp regExpRegister("login:(.+)password:(.+)pseudo:(.+)$");
+	int codePosRegister = regExpRegister.indexIn(data);
+	QStringList listRegister = regExpRegister.capturedTexts();
+
+	//Expression regulière pour le message
+	QRegExp regExpMessage("ID:(\\d+)message:(.+)$");
+	int codePosMessage = regExpMessage.indexIn(data);
+	QStringList listMessage = regExpMessage.capturedTexts();
+
+	//effectue la connexion, l'inscription ou gere les messages
+	switch (list.at(1).toInt())
+	{
+		//cas ou code = 1 est une authentification
+	case 1:
+	{
+		//recuperation des infos de connexion
+		login = listLogin.at(1).toUtf8();
+		pass = listLogin.at(2).toUtf8();
+		qDebug() << login << pass;
+		ID = db->login(login, pass);
+
+		//Envoie la réponse au client avec l'ID
+		QString response = "code:01ID:" + QString::number(ID);
+		obj->sendTextMessage(response);
+
+		//recupère les 100 dernières messages et les stocke dans un tableau
+		std::vector<std::string> lastMessages;
+		lastMessages = db->sendLastMessagesToClient();
+		//envoie le message a tout les utilisateurs du tableau
+		for (std::string message : lastMessages) {
+			obj->sendTextMessage(message.c_str());
+		}
+
+
+
+	}
+	break;
+	//cas ou code = 2 est l'inscription
+	case 2:
+	{
+		//recuperation des infos d'inscription
+		inscriptionLogin = listRegister.at(2).toUtf8();
+		inscriptionPass = listRegister.at(3).toUtf8();
+		inscriptionPseudo = listRegister.at(4).toUtf8();
+		ID = db->inscription(inscriptionLogin, inscriptionPass);//, inscriptionPseudo
+		//a changer pour l'inscription
+		//QString response = "code:01ID:" + QString::number(ID);
+		//obj->sendTextMessage(response);
+	}
+	break;
+	//cas ou code = 3 est un message
+	case 3:
+	{
+
+		qDebug() << listMessage;
+		ID = listMessage.at(1).toInt();
+		message = listMessage.at(2).toUtf8();
+		std::string pseudo = db->sendMessageInDB(ID, message);
+		//recupère le tableau des connexions web
+		QVector<QTcpSocket *> allTcpClients;
+		allTcpClients = server->getAllTcpClientsConnection();
+		QString sendMessage = "code:03ID:" + QString::number(ID) + "pseudo:" + pseudo.c_str() + "message:" + message.toUtf8();
+		//envoie message TCP
+		for (QTcpSocket *socket : allTcpClients) {
+			socket->write(sendMessage.toUtf8());//envoyer le message ici
+		}
+		//envoie message web
+		for (QWebSocket *webSocket : allWebClients) {
+			webSocket->sendTextMessage(sendMessage.toUtf8());//envoyer le message ici
+		}
+	}
+	break;
+
+	default:
+		break;
+	}
+
+
+	qDebug() << data;
+
 }
 
 
