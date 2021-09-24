@@ -103,13 +103,11 @@ void WebServer::onWebClientCommunication(QString entryMessage)
 	case 2:
 	{
 		//recuperation des infos d'inscription
-		inscriptionLogin = listRegister.at(2).toUtf8();
-		inscriptionPass = listRegister.at(3).toUtf8();
-		inscriptionPseudo = listRegister.at(4).toUtf8();
-		ID = db->inscription(inscriptionLogin, inscriptionPass);//, inscriptionPseudo
-		//a changer pour l'inscription
-		//QString response = "code:01ID:" + QString::number(ID);
-		//obj->sendTextMessage(response);
+		inscriptionLogin = listRegister.at(1).toUtf8();
+		inscriptionPass = listRegister.at(2).toUtf8();
+		inscriptionPseudo = listRegister.at(3).toUtf8();
+		QString response = db->inscription(inscriptionLogin, inscriptionPass, inscriptionPseudo);
+		obj->sendTextMessage(response);
 	}
 	break;
 	//cas ou code = 3 est un message

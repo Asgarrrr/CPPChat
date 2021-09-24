@@ -19,7 +19,7 @@ public:
 	std::string sendMessageInDB(int ID, QString message);
 	int login(QString login, QString pass);
 	void connectToDB();
-	int inscription(QString inscriptionLogin, QString inscriptionPass);//, QString inscriptionPseudo
+	QString inscription(QString inscriptionLogin, QString inscriptionPass, QString inscriptionPseudo);
 	std::vector<std::string> sendLastMessagesToClient();
 };
 

@@ -47,6 +47,8 @@ void Server::onClientDisconnected()
 	QObject::disconnect(obj, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
 	allTcpClients.removeOne(obj);
 	obj->deleteLater();
+
+	qDebug() << "Un client TCP s'est deconnecte";
 }
 // communication client .
 void Server::onClientCommunication()
@@ -71,7 +73,7 @@ void Server::onClientCommunication()
 	QStringList listLogin = regExpLogin.capturedTexts();
 
 	//Expression regulière pour l'inscription
-	QRegExp regExpRegister("login:(.+)password:(.+)$");
+	QRegExp regExpRegister("login:(.+)password:(.+)pseudo:(.+)$");
 	int codePosRegister = regExpRegister.indexIn(strData);
 	QStringList listRegister = regExpRegister.capturedTexts();
 
@@ -114,9 +116,8 @@ void Server::onClientCommunication()
 			//recuperation des infos d'inscription
 			inscriptionLogin = listRegister.at(1).toUtf8();
 			inscriptionPass = listRegister.at(2).toUtf8();
-			//inscriptionPseudo = listRegister.at(3).toUtf8();, inscriptionPseudo
-			ID = db->inscription(inscriptionLogin, inscriptionPass);
-			QString response = "code:01ID:" + QString::number(ID);
+			inscriptionPseudo = listRegister.at(3).toUtf8();
+			QString response = db->inscription(inscriptionLogin, inscriptionPass, inscriptionPseudo);
 			obj->write(response.toStdString().c_str());
 
 			//Envoie les 100 dernières messages au client

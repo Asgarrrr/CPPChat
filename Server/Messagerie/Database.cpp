@@ -28,7 +28,7 @@ void Database::connectToDB()
 		exit(1);
 	}
 }
-int Database::inscription(QString inscriptionLogin, QString inscriptionPass)//, QString inscriptionPseudo
+QString Database::inscription(QString inscriptionLogin, QString inscriptionPass, QString inscriptionPseudo)
 {
 	QSqlQuery insert;
 	QSqlQuery request;
@@ -36,18 +36,18 @@ int Database::inscription(QString inscriptionLogin, QString inscriptionPass)//, 
 
 	if ((Database::login(inscriptionLogin, inscriptionPass)) == 0) {
 
-		insert.prepare("INSERT INTO `users`(`_login`, `_password`) VALUES (?,?)");
+		insert.prepare("INSERT INTO `users`(`_login`, `_password`, `_pseudo`) VALUES (?,?,?)");
 		insert.addBindValue(inscriptionLogin);
 		insert.addBindValue(inscriptionPass);
-		//insert.addBindValue(inscriptionPseudo);, `_pseudo`
+		insert.addBindValue(inscriptionPseudo);
 		if (insert.exec()) {
-			request.prepare("SELECT `_ID` FROM `users` WHERE _login = ? AND _password = ? limit 1");
+			request.prepare("SELECT `_ID`, `_pseudo` FROM `users` WHERE _login = ? AND _password = ? limit 1");
 			request.addBindValue(inscriptionLogin);
 			request.addBindValue(inscriptionPass);
 			request.exec();
 			request.first();
 			qDebug() << "Un utilisateur s'est inscrit";
-			return request.value(0).toInt();
+			return "code:01ID:" + request.value(0).toString() + "pseudo:" + request.value(1).toString();
 		}
 		else {
 			return 0;
