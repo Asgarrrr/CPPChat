@@ -10,21 +10,24 @@ class Login : public QWidget {
 	public:
 		Login(QWidget *parent = Q_NULLPTR);
 		~Login();
-		int ID;
 		Client * c;
-		int logged = 0;
 
 	private:
 		Ui::Login ui;
 		QTcpSocket * socket;
+		int ID;
+		int logged = 0;
+		int state = 1;
+		QString Pseudo;
 
 	public slots:
 		void onSocketConnected();
 		void onSocketDisconnected();
 		void onSocketReadyRead();
-
+		void switchState();
 		void oauth();
 		void regist();
+		void handlerAction();
 
 
 

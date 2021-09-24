@@ -1,7 +1,8 @@
 #include "Login.h"
 #include "Client.h"
+#include "Register.h"
 #include <qdebug.h>
-
+#include <QCryptographicHash>
 
 Login::Login( QWidget *parent ) : QWidget( parent ) {
 
@@ -14,9 +15,10 @@ Login::Login( QWidget *parent ) : QWidget( parent ) {
 	QObject::connect(socket, SIGNAL(disconnected()), this, SLOT(onSocketDisconnected()));
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
 
-	// IP GOGOL :: 192.168.65.103
-
 	socket->connectToHost( "192.168.65.103", 4456 );
+
+	ui.lineEditPseudo->setVisible(false);
+	ui.labelPseudo->setVisible(false);
 	
 }
 
@@ -54,6 +56,8 @@ void Login::onSocketReadyRead() {
 			QStringList list = rx.capturedTexts();
 	
 			if ( list.at(1).toInt() != 0 ) {
+
+				qDebug() << "Start ";
 				
 				ID = list.at( 1 ).toInt();
 
@@ -63,14 +67,24 @@ void Login::onSocketReadyRead() {
 				logged = 1;
 				this->close();
 
-				QRegExp rx( "code:03.+?(?=code)" );
-				int codePos = rx.indexIn( str );
-				QStringList list = rx.capturedTexts();
+				// ———— Get last messages
 
-				qDebug() << list;
+				// —— Split masive block of message into individual message object
+				QStringList lastMessagses = str.split( QString( "code:03" ) );
 
-				for (int i = 1; i < list.size(); ++i)
-					qDebug() << list.at(i).toLocal8Bit().constData() << Qt::endl;
+				// —— Loop over message
+				for (QString message : lastMessagses) {
+
+					QRegExp rx("pseudo:(.+)message:(.+)$");
+					int codePos = rx.indexIn(message);
+					QStringList list = rx.capturedTexts();
+
+					QString author = list.at(1).toUtf8();
+					QString message = list.at(2).toUtf8();
+
+					c->renderMessage(author, message);
+
+				}
 				
 			} else {
 
@@ -83,8 +97,6 @@ void Login::onSocketReadyRead() {
 
 		case 3: {
 
-			qDebug() << logged;
-
 			if ( logged == 1 ) {
 
 				QRegExp rx("pseudo:(.+)message:(.+)$");
@@ -94,15 +106,12 @@ void Login::onSocketReadyRead() {
 				QString author = list.at(1).toUtf8();
 				QString message = list.at(2).toUtf8();
 
-				qDebug() << "test";
-
 				c->renderMessage( author, message );
 
 			}
 				 
 
 		}
-
 
 		default:
 			break;
@@ -122,9 +131,12 @@ void Login::oauth() {
 
 		ui.labelLoginState->setText( "Connected..." );
 
-		QString login = ui.lineEditLogin->text()
-			  , pass  = ui.lineEditPassword->text()
-			  , frmd  = "code:01login:" + login + "password:" + pass;
+		QByteArray loginSalt(QCryptographicHash::hash(QByteArray(ui.lineEditLogin->text().toStdString().c_str()), QCryptographicHash::Sha256).toHex());
+		QByteArray passSalt(QCryptographicHash::hash(QByteArray(ui.lineEditPassword->text().toStdString().c_str()), QCryptographicHash::Sha256).toHex());
+
+		QString frmd  = "code:01login:" + loginSalt + "password:" + passSalt;
+
+		qDebug() << frmd;
 
 		socket->write( frmd.toUtf8() );
 
@@ -142,18 +154,52 @@ void Login::regist() {
 		if ( ui.lineEditPassword->text().size() == 0 )
 			return ui.labelLoginState->setText( "Vous devez indiquer votre mot de passe..." );
 
+		if (ui.lineEditPseudo->text().size() == 0)
+			return ui.labelLoginState->setText("Vous devez indiquer votre pseudo...");
+
 		ui.labelLoginState->setText( "Connected..." );
 
-		QString login = ui.lineEditLogin->text()
-			  , pass = ui.lineEditPassword->text()
-			  , frmd = "code:02login:" + login + "password:" + pass;
+		QByteArray loginSalt(QCryptographicHash::hash(QByteArray(ui.lineEditLogin->text().toStdString().c_str()), QCryptographicHash::Sha256).toHex());
+		QByteArray passSalt(QCryptographicHash::hash(QByteArray(ui.lineEditPassword->text().toStdString().c_str()), QCryptographicHash::Sha256).toHex());
 
-		socket->write( frmd.toUtf8() );
+		QString frmd = "code:02login:" + loginSalt + "password:" + passSalt + "pseudo:" + ui.lineEditPseudo->text().toStdString().c_str();
+
+		socket->write(frmd.toUtf8());
 
 	}
 
 }
 
+
+void Login::switchState() {
+
+	if ( state == 0 ) {
+
+		ui.lineEditPseudo->setVisible(false);
+		ui.labelPseudo->setVisible(false);
+		ui.pushButtonRegister->setText("Se connecter");
+
+		state = 1;
+
+	}
+	else {
+
+		ui.lineEditPseudo->setVisible(true);
+		ui.labelPseudo->setVisible(true);
+		ui.pushButtonRegister->setText("S'inscrire");
+
+		state = 0;
+
+	}
+
+}
+
+
+void Login::handlerAction() {
+
+	state == 0 ? Login::Login() : Login::oauth();
+
+}
 
 Login::~Login() {
 }

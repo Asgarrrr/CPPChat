@@ -22,6 +22,6 @@ class Client : public QMainWindow
 
 	public slots:
 		void sendMessage();
-
+		// void browse();
 
 };
