@@ -26,5 +26,5 @@ private:
 public slots:
 	void onWebServerNewConnection();
 	void onWebClientDisconnected();
-	void onWebClientCommunication();
+	void onWebClientCommunication(QString entryMessage);
 };
