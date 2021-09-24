@@ -30,9 +30,11 @@ form{
 
 form.ff {
     margin: 0;
+    padding-top: 10%;
+}
+form.fff{
     padding-top: 20%;
 }
-
 .form-nom {
     padding-bottom: 25px;
 }
@@ -91,11 +93,13 @@ p {
 }
 
 .result{
-    margin: 5% 0% 0% 0%;
+    margin: 3% 0% 0% 0%;
     color:red;
 }
 
-
+.lienindex{
+    margin:1% 0% 0% 0%;
+}
 /*--Chat--*/
 .Block{
     background-color: rgba(0,0,0,.5);
@@ -174,6 +178,12 @@ button.message{
     border-radius: 5px;
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
     border: transparent;
+    text-align: center;
+}
+.user{
+    color:white;
+    margin: 10%;
+    
 }
 
 

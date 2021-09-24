@@ -11,23 +11,23 @@
     </head>
 
     <body>
-        <div>
+        <!--<div>
             <nav>
-                <a href="index.html">HOME</a>
-                <a href="Message.html">CHAT</a>
-                <a href="Compte.html">COMPTE</a>
+               <a id="HOME" href="index.html">HOME</a>
+                <a id="CHAT" href="Message.html">CHAT</a>
+                <a id="COMPTE" href="Compte.html">COMPTE</a>
                 <div id="indicator"></div>
             </nav>
-        </div>
+        </div>-->
 
         <div class="formulaire">
-            <h2>Whishcord</h2>
-            <form class="ff" name="connexion" method="post" onsubmit="return Connexion()">
+            <h2>Wishcord</h2>
+            <form class="fff" name="connexion" method="post" onsubmit="return Connexion()">
                 <div class="form-nom">
-                    <input class="champ" id="login" type="text" name="user_name" placeholder="Username">
+                    <input class="champ" id="login" type="text" name="user_name" placeholder="Username" minlength="2" required>
                 </div>
                 <div class="form-mdp">
-                    <input class="champ" id="mdp" type="password" name="password" placeholder="Password">
+                    <input class="champ" id="mdp" type="password" name="password" placeholder="Password" minlength="2" required>
                 </div>
 
                 <button class="Connexion">Se Connecter</button>

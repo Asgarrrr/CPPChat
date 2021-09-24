@@ -51,9 +51,9 @@ function Connexion( ){
     console.table( crossLogin )
 
 
-
+    /*window.location.replace("Message.html");*/
     return false;
-
+    
 }
 
 const msgerreur = "Erreur mot de passe";
@@ -64,6 +64,7 @@ function Inscription( ){
     const InscriptionMdp = document.getElementById( "Inpassword" ).value;
     const mdpconfirm = document.getElementById( "Inconfirmpass" ).value;
 
+    //si les données du mot de passe et égale avec le mot de passe confirm, les données sont envoyer 
     if(InscriptionMdp == mdpconfirm){
             console.log( InscriptionLog, InscriptionMdp, mdpconfirm)
     const crossInscrit = {
@@ -74,10 +75,11 @@ function Inscription( ){
 
     socket.send( crossInscrit )
 
+    window.location.replace("Message.html");
     return false;
 
     }else{
-        console.log('erreur mot de passe');
+        console.log('Erreur mot de passe');
         
         document.getElementById("result").innerHTML = msgerreur;
         return false;
@@ -86,7 +88,7 @@ function Inscription( ){
 
 }
 
-//Récuperer le message de l'utilisateur
+//Récupere le message de l'utilisateur
 
 function Message( ){
     const Messageuser = document.getElementById( "msg" ).value;
@@ -109,4 +111,10 @@ socket.onmessage = function(event){
     document.getElementById('messages').prepend(messageElem);
 }
 
+/*function SupprimerMenu(){
 
+        var Home = document.getElementById("HOME");
+        Home.remove();
+
+}
+*/
