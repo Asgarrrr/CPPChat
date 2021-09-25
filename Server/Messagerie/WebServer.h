@@ -5,6 +5,9 @@
 #include <QWebSocketServer>
 #include "Database.h"
 
+QT_FORWARD_DECLARE_CLASS(QWebSocketServer)
+QT_FORWARD_DECLARE_CLASS(QWebSocket)
+
 class Server;
 
 class WebServer : public QObject

@@ -50,12 +50,12 @@ QString Database::inscription(QString inscriptionLogin, QString inscriptionPass,
 			return "code:01ID:" + request.value(0).toString() + "pseudo:" + request.value(1).toString();
 		}
 		else {
-			return "0";
+			return "code:01ID:0";
 		}
 	}
 	else {
 
-		return "0";
+		return "code01:ID:0";
 	}
 }
 std::vector<std::string> Database::sendLastMessagesToClient()

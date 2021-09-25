@@ -2,11 +2,11 @@
 #include "Server.h"
 
 WebServer::WebServer(Database * db, QObject *parent): QObject(parent) {
-	webServer = new QWebSocketServer(QStringLiteral("WebServer"), QWebSocketServer::NonSecureMode, this);
+	webServer = (new QWebSocketServer(QStringLiteral("WebServer"), QWebSocketServer::NonSecureMode, this));
 	QObject::connect(webServer, &QWebSocketServer::newConnection, this, &WebServer::onWebServerNewConnection);
 	
 	this->db = db;
-	webServer->listen(QHostAddress::AnyIPv4, 4456);
+	webServer->listen(QHostAddress::AnyIPv4, 4457);
 	
 }
 
@@ -32,6 +32,7 @@ void WebServer::onWebServerNewConnection()
 	QTcpSocket::connect(webClient, &QWebSocket::textMessageReceived, this,&WebServer::onWebClientCommunication);
 	QTcpSocket::connect(webClient, &QWebSocket::disconnected, this, &WebServer::onWebClientDisconnected);
 	allWebClients.append(webClient);
+	webClient->sendTextMessage("text");
 }
 
 void WebServer::onWebClientDisconnected()
