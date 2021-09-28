@@ -1,0 +1,44 @@
+[role="main"] {
+    padding-top: 48px;
+}
+
+#messageFeed {
+    height: calc(100vh - 140px);
+    overflow-y: scroll;
+    margin-top: 25px;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    background: #f6f9fb;
+    border-radius: .6rem;
+    padding: 1rem 1.25rem;
+    color: #95aac9;
+    max-width: 30vw;
+    word-break: break-all;
+}
+
+.messsageR {
+    background: #2787f5;
+    border-radius: .6rem;
+    color: #fff;
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 15px 15px 15px;
+    height: 53px;
+    background-color: #fff;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 30px;
+}
