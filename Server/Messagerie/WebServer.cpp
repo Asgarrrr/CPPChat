@@ -26,15 +26,18 @@ QVector<QWebSocket *> WebServer::getAllWebClientsConnection()
 	return allWebClients;
 }
 
+//enregistre la connexion du client et l'ajoute à un tableau de connexion
 void WebServer::onWebServerNewConnection()
 {
 	QWebSocket * webClient = webServer->nextPendingConnection();
 	QTcpSocket::connect(webClient, &QWebSocket::textMessageReceived, this,&WebServer::onWebClientCommunication);
 	QTcpSocket::connect(webClient, &QWebSocket::disconnected, this, &WebServer::onWebClientDisconnected);
 	allWebClients.append(webClient);
-	webClient->sendTextMessage("text");
+
+	qDebug() << "Un client WEB s'est connecte";
 }
 
+//Déconnecte le client et le supprime du tableau de connexion
 void WebServer::onWebClientDisconnected()
 {
 	QWebSocket * obj = qobject_cast<QWebSocket*>(sender());
@@ -42,6 +45,8 @@ void WebServer::onWebClientDisconnected()
 	QObject::disconnect(obj, &QWebSocket::disconnected, this, &WebServer::onWebClientDisconnected);
 	allWebClients.removeOne(obj);
 	obj->deleteLater();
+
+	qDebug() << "Un client WEB s'est deconnecte";
 }
 
 void WebServer::onWebClientCommunication(QString entryMessage)
@@ -96,7 +101,7 @@ void WebServer::onWebClientCommunication(QString entryMessage)
 			obj->sendTextMessage(message.c_str());
 		}
 
-
+		qDebug() << "Un compte s'est connecte";
 
 	}
 	break;
@@ -109,6 +114,16 @@ void WebServer::onWebClientCommunication(QString entryMessage)
 		inscriptionPseudo = listRegister.at(3).toUtf8();
 		QString response = db->inscription(inscriptionLogin, inscriptionPass, inscriptionPseudo);
 		obj->sendTextMessage(response);
+
+		//recupère les 100 dernières messages et les stocke dans un tableau
+		std::vector<std::string> lastMessages;
+		lastMessages = db->sendLastMessagesToClient();
+		//envoie le message a tout les utilisateurs du tableau
+		for (std::string message : lastMessages) {
+			obj->sendTextMessage(message.c_str());
+		}
+
+		qDebug() << "Un compte s'est deconnecte";
 	}
 	break;
 	//cas ou code = 3 est un message
@@ -127,20 +142,18 @@ void WebServer::onWebClientCommunication(QString entryMessage)
 		for (QTcpSocket *socket : allTcpClients) {
 			socket->write(sendMessage.toUtf8());//envoyer le message ici
 		}
+		qDebug() << "Le message WEB a ete envoye a tout les clients TCP";
 		//envoie message web
 		for (QWebSocket *webSocket : allWebClients) {
 			webSocket->sendTextMessage(sendMessage.toUtf8());//envoyer le message ici
 		}
+		qDebug() << "Le message WEB a ete envoye a tout les clients WEB";
 	}
 	break;
 
 	default:
 		break;
 	}
-
-
-	qDebug() << data;
-
 }
 
 

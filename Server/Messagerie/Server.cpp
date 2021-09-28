@@ -25,6 +25,7 @@ void Server::setWebServer(WebServer * webServer)
 	this->webServer = webServer;
 }
 
+//enregistre la connexion du client et l'ajoute à un tableau de connexion
 void Server::onServerNewConnection()
 {
 	
@@ -39,7 +40,7 @@ void Server::onServerNewConnection()
 }
 
 
-
+//Déconnecte le client et le supprime du tableau de connexion
 void Server::onClientDisconnected()
 {
 	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
@@ -55,7 +56,6 @@ void Server::onClientCommunication()
 {	//écoute le client puis récupère son message
 	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
 	QByteArray data = obj->read(obj->bytesAvailable());
-	qDebug() << data;
 	
 	//passe data de tableau a string
 	QString strData( data );
@@ -106,7 +106,7 @@ void Server::onClientCommunication()
 				obj->write(message.c_str());//envoyer le message ici
 			}
 			
-
+			qDebug() << "Un compte s'est connecte";
 
 		}
 		break;
@@ -127,6 +127,8 @@ void Server::onClientCommunication()
 			for (std::string message : lastMessages) {
 				obj->write(message.c_str());//envoyer le message ici
 			}
+
+			qDebug() << "Un compte s'est connecte";
 		}
 		break;
 		//cas ou code = 3 est un message
@@ -145,12 +147,12 @@ void Server::onClientCommunication()
 			for (QTcpSocket *socket : allTcpClients) {
 				socket->write(sendMessage.toUtf8());//envoyer le message ici
 			}
-			qDebug() << "Le message a ete envoye a tout les clients TCP";
+			qDebug() << "Le message TCP a ete envoye a tout les clients TCP";
 			//envoie message web
 			for (QWebSocket *webSocket : allWebClients) {
 				webSocket->sendTextMessage(sendMessage.toUtf8());//envoyer le message ici
 			}
-			qDebug() << "Le message a ete envoye a tout les clients WEB";
+			qDebug() << "Le message TCP a ete envoye a tout les clients WEB";
 		}
 		break;
 
