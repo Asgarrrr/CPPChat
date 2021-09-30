@@ -14,17 +14,18 @@ class WebServer : public QObject
 {
 	Q_OBJECT
 
+private:
+	QWebSocketServer * webServer;
+	Database * db;
+	Server * server;
+	QVector<QWebSocket *> allWebClients;
+
 public:
 	WebServer(Database * db, QObject *parent = Q_NULLPTR);
 	~WebServer();
 	//permet d'inclure la classe server dans webServer
 	void setServer(Server * server);
 	QVector<QWebSocket *> getAllWebClientsConnection();
-private:
-	QWebSocketServer * webServer;
-	Database * db;
-	Server * server;
-	QVector<QWebSocket *> allWebClients;
 
 public slots:
 	void onWebServerNewConnection();

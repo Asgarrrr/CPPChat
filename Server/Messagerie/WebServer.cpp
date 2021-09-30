@@ -13,13 +13,14 @@ WebServer::WebServer(Database * db, QObject *parent): QObject(parent) {
 WebServer::~WebServer()
 {
 }
+
 //permet d'inclure la classe server dans webServer
 void WebServer::setServer(Server * server)
 {
 	this->server = server;
 
-	server->getAllTcpClientsConnection();
 }
+
 //retourne le tableau des clients web connecté
 QVector<QWebSocket *> WebServer::getAllWebClientsConnection()
 {
@@ -35,18 +36,6 @@ void WebServer::onWebServerNewConnection()
 	allWebClients.append(webClient);
 
 	qDebug() << "Un client WEB s'est connecte";
-}
-
-//Déconnecte le client et le supprime du tableau de connexion
-void WebServer::onWebClientDisconnected()
-{
-	QWebSocket * obj = qobject_cast<QWebSocket*>(sender());
-	QObject::disconnect(obj, &QWebSocket::textMessageReceived, this, &WebServer::onWebClientCommunication);
-	QObject::disconnect(obj, &QWebSocket::disconnected, this, &WebServer::onWebClientDisconnected);
-	allWebClients.removeOne(obj);
-	obj->deleteLater();
-
-	qDebug() << "Un client WEB s'est deconnecte";
 }
 
 void WebServer::onWebClientCommunication(QString entryMessage)
@@ -156,4 +145,14 @@ void WebServer::onWebClientCommunication(QString entryMessage)
 	}
 }
 
+//Déconnecte le client et le supprime du tableau de connexion
+void WebServer::onWebClientDisconnected()
+{
+	QWebSocket * obj = qobject_cast<QWebSocket*>(sender());
+	QObject::disconnect(obj, &QWebSocket::textMessageReceived, this, &WebServer::onWebClientCommunication);
+	QObject::disconnect(obj, &QWebSocket::disconnected, this, &WebServer::onWebClientDisconnected);
+	allWebClients.removeOne(obj);
+	obj->deleteLater();
 
+	qDebug() << "Un client WEB s'est deconnecte";
+}
