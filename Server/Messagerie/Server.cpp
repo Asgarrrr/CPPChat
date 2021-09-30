@@ -8,13 +8,12 @@ Server::Server( Database * db, QObject *parent ) : QObject( parent ) {
 	server->listen(QHostAddress::AnyIPv4, 4456);
 }
 
-
-
 Server::~Server()
 {
 }
+
 //retourne le tableau des clients tcp connecté
-QVector<QTcpSocket*> & Server::getAllTcpClientsConnection()
+QVector<QTcpSocket*> Server::getAllTcpClientsConnection()
 {
 	return allTcpClients;
 }
@@ -39,18 +38,6 @@ void Server::onServerNewConnection()
 	qDebug() << "Un client TCP s'est connecte";
 }
 
-
-//Déconnecte le client et le supprime du tableau de connexion
-void Server::onClientDisconnected()
-{
-	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
-	QObject::disconnect(obj, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
-	QObject::disconnect(obj, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
-	allTcpClients.removeOne(obj);
-	obj->deleteLater();
-
-	qDebug() << "Un client TCP s'est deconnecte";
-}
 // communication client .
 void Server::onClientCommunication()
 {	//écoute le client puis récupère son message
@@ -161,6 +148,17 @@ void Server::onClientCommunication()
 	}
 }
 
+//Déconnecte le client et le supprime du tableau de connexion
+void Server::onClientDisconnected()
+{
+	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
+	QObject::disconnect(obj, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
+	QObject::disconnect(obj, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
+	allTcpClients.removeOne(obj);
+	obj->deleteLater();
+
+	qDebug() << "Un client TCP s'est deconnecte";
+}
 
 
 
