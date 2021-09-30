@@ -12,6 +12,7 @@ ws.onopen = ( ) => {
 
     oauth.show();
 
+    //Récupére les données du formulaire de connexion
     document.getElementById( "login" ).addEventListener( "submit", async ( ) => {
 
         const login    = document.getElementById( "logLogin" ).value
@@ -24,7 +25,7 @@ ws.onopen = ( ) => {
         return false;
 
     });
-
+    //Récupére les données du formulaire inscription
     document.getElementById( "register" ).addEventListener( "submit", async ( ) => {
 
         const login    = document.getElementById( "regLogin" ).value
