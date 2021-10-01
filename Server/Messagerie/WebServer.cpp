@@ -75,13 +75,32 @@ void WebServer::onWebClientCommunication(QString entryMessage)
 		//recuperation des infos de connexion
 		login = listLogin.at(1).toUtf8();
 		pass = listLogin.at(2).toUtf8();
-		qDebug() << login << pass;
-		ID = db->login(login, pass);
+		std::string response = db->login(login, pass);
+		//
+		if (response != "0") {
+			//Envoie la réponse au client avec l'ID
+			obj->sendTextMessage(response.c_str());
 
-		//Envoie la réponse au client avec l'ID
-		QString response = "code:01ID:" + QString::number(ID);
-		obj->sendTextMessage(response);
+			//Envoie le fait qu'un utilisateur soit connecté à tout les utilisateurs
+			QVector<QTcpSocket *> allTcpClients;
+			allTcpClients = server->getAllTcpClientsConnection();
+			//envoie message TCP
+			for (QTcpSocket *socket : allTcpClients) {
+				socket->write(response.c_str());//envoyer le message ici
+			}
+			qDebug() << "La connexion WEB a ete envoye a tout les clients TCP";
+			//envoie message web
+			for (QWebSocket *webSocket : allWebClients) {
+				webSocket->sendTextMessage(response.c_str());//envoyer le message ici
+			}
+			qDebug() << "La connexion WEB a ete envoye a tout les clients WEB";
+		}
+		else {
+			obj->sendTextMessage("code:01ID:0");
+		}
 
+		if (response == "0")
+			return;
 		//recupère les 100 dernières messages et les stocke dans un tableau
 		std::vector<std::string> lastMessages;
 		lastMessages = db->sendLastMessagesToClient();

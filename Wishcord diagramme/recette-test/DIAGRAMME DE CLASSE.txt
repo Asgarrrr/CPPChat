@@ -1,0 +1,4 @@
+Composition = comme une classe parent qui a un enfant, si le parent est détruit, l'enfant ne peut pas acceder au classe. autres exemple l'un est créer dans l'autre
+
+agregation = si l'un est détruit, l'autre n'est pas forcement détruit. exemple : deux pièces séparés d'un mur, si une pièce est détruite le mur entre les deux pièces
+	     ne l'est pas forcement

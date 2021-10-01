@@ -17,7 +17,7 @@ public:
 	~Database();
 
 	void connectToDB();
-	int login(QString login, QString pass);
+	std::string login(QString login, QString pass);
 	QString inscription(QString inscriptionLogin, QString inscriptionPass, QString inscriptionPseudo);
 	std::vector<std::string> sendLastMessagesToClient();
 	std::string sendMessageInDB(int ID, QString message);
