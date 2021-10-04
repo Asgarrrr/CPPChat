@@ -32,8 +32,6 @@ void Server::onServerNewConnection()
 	QTcpSocket::connect(client, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
 	QTcpSocket::connect(client, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
 	allTcpClients.append(client);
-
-
 	
 	qDebug() << "Un client TCP s'est connecte";
 }
