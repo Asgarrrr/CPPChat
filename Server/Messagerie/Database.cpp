@@ -55,7 +55,7 @@ QString Database::inscription(QString inscriptionLogin, QString inscriptionPass,
 	}
 	else {
 
-		return "code01:ID:0";
+		return "code:01:ID:0";
 	}
 }
 std::vector<std::string> Database::sendLastMessagesToClient()

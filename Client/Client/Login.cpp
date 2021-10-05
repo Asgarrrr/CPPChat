@@ -15,7 +15,7 @@ Login::Login( QWidget *parent ) : QWidget( parent ) {
 	QObject::connect(socket, SIGNAL(disconnected()), this, SLOT(onSocketDisconnected()));
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
 
-	socket->connectToHost( "192.168.65.103", 4456 );
+	socket->connectToHost( "127.0.0.1", 4456 );
 
 	ui.lineEditPseudo->setVisible(false);
 	ui.labelPseudo->setVisible(false);
@@ -29,7 +29,7 @@ void Login::onSocketConnected() {
 }
 
 void Login::onSocketDisconnected() {
-	qDebug() << "yesy";
+
 }
 
 
@@ -46,6 +46,9 @@ void Login::onSocketReadyRead() {
 
 	QStringList list = rx.capturedTexts();
 
+
+	qDebug() << list;
+
 	switch ( list.at( 1 ).toInt() ) {
 		
 		// -- Login
@@ -54,8 +57,10 @@ void Login::onSocketReadyRead() {
 			QRegExp rx( "ID:(\\d+)" );
 			int codePos = rx.indexIn( str );
 			QStringList list = rx.capturedTexts();
+
+			
 	
-			if ( list.at(1).toInt() != 0 ) {
+			if ( list.at( 1 ).toInt() != 0 ) {
 
 				qDebug() << "Start ";
 				
@@ -87,6 +92,8 @@ void Login::onSocketReadyRead() {
 				}
 				
 			} else {
+
+				qDebug() << "ehgzdfyefzez";
 
 				ui.labelLoginState->setText("Votre mot de passe ou nom d'utilisteur \nest incorrect");
 				ui.labelLoginState->setStyleSheet("QLabel { color : red; }");
@@ -157,8 +164,6 @@ void Login::regist() {
 		if (ui.lineEditPseudo->text().size() == 0)
 			return ui.labelLoginState->setText("Vous devez indiquer votre pseudo...");
 
-		ui.labelLoginState->setText( "Connected..." );
-
 		QByteArray loginSalt(QCryptographicHash::hash(QByteArray(ui.lineEditLogin->text().toStdString().c_str()), QCryptographicHash::Sha256).toHex());
 		QByteArray passSalt(QCryptographicHash::hash(QByteArray(ui.lineEditPassword->text().toStdString().c_str()), QCryptographicHash::Sha256).toHex());
 
@@ -177,7 +182,8 @@ void Login::switchState() {
 
 		ui.lineEditPseudo->setVisible(false);
 		ui.labelPseudo->setVisible(false);
-		ui.pushButtonRegister->setText("Se connecter");
+		ui.pushButtonRegister->setText("S'inscrire");
+		ui.pushButtonConnexion->setText("Connexion");
 
 		state = 1;
 
@@ -186,7 +192,8 @@ void Login::switchState() {
 
 		ui.lineEditPseudo->setVisible(true);
 		ui.labelPseudo->setVisible(true);
-		ui.pushButtonRegister->setText("S'inscrire");
+		ui.pushButtonRegister->setText("Se connecter");
+		ui.pushButtonConnexion->setText("Inscription");
 
 		state = 0;
 
@@ -197,7 +204,7 @@ void Login::switchState() {
 
 void Login::handlerAction() {
 
-	state == 0 ? Login::Login() : Login::oauth();
+	state == 0 ? Login::regist() : Login::oauth();
 
 }
 

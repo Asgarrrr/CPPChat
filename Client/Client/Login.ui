@@ -90,7 +90,7 @@
      <x>20</x>
      <y>300</y>
      <width>211</width>
-     <height>20</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -166,7 +166,7 @@
    <sender>pushButtonConnexion</sender>
    <signal>clicked()</signal>
    <receiver>Login</receiver>
-   <slot>oauth()</slot>
+   <slot>handlerAction()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>67</x>
@@ -231,5 +231,6 @@
   <slot>oauth()</slot>
   <slot>regist()</slot>
   <slot>switchState()</slot>
+  <slot>handlerAction()</slot>
  </slots>
 </ui>
