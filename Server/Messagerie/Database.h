@@ -16,11 +16,11 @@ public:
 	Database(QObject *parent = Q_NULLPTR);
 	~Database();
 
-	std::string sendMessageInDB(int ID, QString message);
-	int login(QString login, QString pass);
 	void connectToDB();
+	std::string login(QString login, QString pass);
 	QString inscription(QString inscriptionLogin, QString inscriptionPass, QString inscriptionPseudo);
 	std::vector<std::string> sendLastMessagesToClient();
+	std::string sendMessageInDB(int ID, QString message);
 };
 
 

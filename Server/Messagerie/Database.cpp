@@ -34,7 +34,7 @@ QString Database::inscription(QString inscriptionLogin, QString inscriptionPass,
 	QSqlQuery request;
 	qDebug() << inscriptionLogin << inscriptionPass;
 
-	if ((Database::login(inscriptionLogin, inscriptionPass)) == 0) {
+	if ((Database::login(inscriptionLogin, inscriptionPass)) == "0") {
 
 		insert.prepare("INSERT INTO `users`(`_login`, `_password`, `_pseudo`) VALUES (?,?,?)");
 		insert.addBindValue(inscriptionLogin);
@@ -58,6 +58,31 @@ QString Database::inscription(QString inscriptionLogin, QString inscriptionPass,
 		return "code:01:ID:0";
 	}
 }
+//Verifie la connexion
+std::string Database::login(QString login, QString pass)
+{
+	QSqlQuery request;
+	request.prepare("SELECT * FROM `users` WHERE _login = ? AND _password = ? limit 1");
+	request.addBindValue(login);
+	request.addBindValue(pass);
+
+	request.exec();
+
+	request.first();
+	qDebug() << request.size();
+	if (request.size() == 1) {
+		std::string ID = request.value(0).toString().toUtf8();
+		qDebug() << ID.c_str();
+		std::string pseudo = request.value(3).toString().toUtf8();
+		std::string message = "code:01ID:" + ID + "pseudo:" + pseudo;
+		return message;
+	}
+	else {
+		return "0";
+	}
+		
+}
+//Envoie les 100 derniers messages de la BDD au client
 std::vector<std::string> Database::sendLastMessagesToClient()
 {
 	std::vector<std::string> result;
@@ -75,21 +100,7 @@ std::vector<std::string> Database::sendLastMessagesToClient()
 	} while (request.previous());
 	return result;
 }
-//Verifie la connexion
-int Database::login(QString login, QString pass)
-{
-	QSqlQuery request;
-	request.prepare("SELECT * FROM `users` WHERE _login = ? AND _password = ? limit 1");
-	request.addBindValue(login);
-	request.addBindValue(pass);
 
-	request.exec();
-
-	request.first();
-
-	return request.size() == 1 ? request.value( 0 ).toInt() : 0;
-
-}
 //enregistre le message dans la BDD et retourne le pseudo de l'emetteur du message
 std::string Database::sendMessageInDB(int ID, QString message)
 {

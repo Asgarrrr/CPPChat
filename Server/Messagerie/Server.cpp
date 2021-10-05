@@ -8,13 +8,12 @@ Server::Server( Database * db, QObject *parent ) : QObject( parent ) {
 	server->listen(QHostAddress::AnyIPv4, 4456);
 }
 
-
-
 Server::~Server()
 {
 }
+
 //retourne le tableau des clients tcp connecté
-QVector<QTcpSocket*> & Server::getAllTcpClientsConnection()
+QVector<QTcpSocket*> Server::getAllTcpClientsConnection()
 {
 	return allTcpClients;
 }
@@ -33,24 +32,10 @@ void Server::onServerNewConnection()
 	QTcpSocket::connect(client, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
 	QTcpSocket::connect(client, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
 	allTcpClients.append(client);
-
-
 	
 	qDebug() << "Un client TCP s'est connecte";
 }
 
-
-//Déconnecte le client et le supprime du tableau de connexion
-void Server::onClientDisconnected()
-{
-	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
-	QObject::disconnect(obj, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
-	QObject::disconnect(obj, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
-	allTcpClients.removeOne(obj);
-	obj->deleteLater();
-
-	qDebug() << "Un client TCP s'est deconnecte";
-}
 // communication client .
 void Server::onClientCommunication()
 {	//écoute le client puis récupère son message
@@ -91,13 +76,31 @@ void Server::onClientCommunication()
 			//recuperation des infos de connexion
 			login = listLogin.at(1).toUtf8();
 			pass = listLogin.at(2).toUtf8();
-			ID = db->login(login, pass);
-
-			//Envoie la réponse au client avec l'ID
-			QString response = "code:01ID:" + QString::number(ID);
-			obj->write(response.toStdString().c_str());
+			std::string response = db->login(login, pass);
 			
+			if (response != "0") {
+				//Envoie la réponse au client avec l'ID
+				obj->write(response.c_str());
 
+				//Envoie le fait qu'un utilisateur soit connecté à tout les utilisateurs
+				QVector<QWebSocket *> allWebClients;
+				allWebClients = webServer->getAllWebClientsConnection();
+				//envoie message TCP
+				for (QTcpSocket *socket : allTcpClients) {
+					socket->write(response.c_str());//envoyer le message ici
+				}
+				qDebug() << "La connexion TCP a ete envoye a tout les clients TCP";
+				//envoie message web
+				for (QWebSocket *webSocket : allWebClients) {
+					webSocket->sendTextMessage(response.c_str());//envoyer le message ici
+				}
+				qDebug() << "La connexion TCP a ete envoye a tout les clients WEB";
+			}else {
+				obj->write("code:01ID:0");
+			}
+
+			if (response == "0")
+				return;
 			//Envoie les 100 dernières messages au client
 			std::vector<std::string> lastMessages;
 			lastMessages = db->sendLastMessagesToClient();
@@ -161,6 +164,17 @@ void Server::onClientCommunication()
 	}
 }
 
+//Déconnecte le client et le supprime du tableau de connexion
+void Server::onClientDisconnected()
+{
+	QTcpSocket * obj = qobject_cast<QTcpSocket*>(sender());
+	QObject::disconnect(obj, SIGNAL(readyRead()), this, SLOT(onClientCommunication()));
+	QObject::disconnect(obj, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
+	allTcpClients.removeOne(obj);
+	obj->deleteLater();
+
+	qDebug() << "Un client TCP s'est deconnecte";
+}
 
 
 
