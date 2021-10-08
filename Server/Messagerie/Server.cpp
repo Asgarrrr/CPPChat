@@ -82,7 +82,7 @@ void Server::onClientCommunication()
 				//Envoie la réponse au client avec l'ID
 				obj->write(response.c_str());
 
-				//Envoie le fait qu'un utilisateur soit connecté à tout les utilisateurs
+				/*//Envoie le fait qu'un utilisateur soit connecté à tout les utilisateurs
 				QVector<QWebSocket *> allWebClients;
 				allWebClients = webServer->getAllWebClientsConnection();
 				//envoie message TCP
@@ -94,7 +94,7 @@ void Server::onClientCommunication()
 				for (QWebSocket *webSocket : allWebClients) {
 					webSocket->sendTextMessage(response.c_str());//envoyer le message ici
 				}
-				qDebug() << "La connexion TCP a ete envoye a tout les clients WEB";
+				qDebug() << "La connexion TCP a ete envoye a tout les clients WEB";*/
 			}else {
 				obj->write("code:01ID:0");
 			}
