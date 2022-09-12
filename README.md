@@ -2,7 +2,7 @@
 
 CPPChat is a simple chat server and client written in C++, using the Qt framework.
 It is a simple example of how to use Qt's networking classes to create a simple
-chat server and client. All message are stored in a SQLite database.
+chat server and client. All message are stored in a SQL database.
 The server and the cpp client can be compiled on Windows, Linux and Mac OS X. ( We have not tested the server on Mac OS X, but it should work. )
 
 Also, we have a web client, written in JavaScript, that uses websockets to connect to the server.
