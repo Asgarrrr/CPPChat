@@ -54,6 +54,6 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 
 ## Contributing
 
-I thank my 3 friends and group members for helping me with this project. @ThomasBerthier, @BoucherL and @LucasGLaPro
+I thank my 3 friends and group members for helping me with this project: [`@ThomasBerthier`]( https://github.com/ThomasBerthier ), [`@BoucherL`]( https://github.com/BoucherL ) & [`@LucasGLaPro`]( https://github.com/LucasGLaPro )
 
 I'm not accepting pull requests, but feel free to fork this project and make your own version of it. x)
